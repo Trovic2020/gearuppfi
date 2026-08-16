@@ -1,0 +1,355 @@
+/* ===== LAYOUT COM MENU LATERAL ===== */
+.layout-veiculo {
+  display: flex;
+  min-height: calc(100vh - 65px); /* desconta a altura do topo */
+}
+
+.menu-lateral {
+  width: 240px;
+  background-color: var(--branco);
+  border-right: 1px solid var(--cinza-medio);
+  padding: 24px 0;
+  flex-shrink: 0;
+}
+
+.menu-lateral-veiculo {
+  padding: 0 20px 20px;
+  border-bottom: 1px solid var(--cinza-medio);
+  margin-bottom: 16px;
+}
+
+.menu-lateral-veiculo h4 {
+  font-size: 15px;
+  color: var(--preto-texto);
+}
+
+.menu-lateral-veiculo p {
+  font-size: 12px;
+  color: var(--cinza-texto);
+  margin-top: 2px;
+}
+
+.menu-lateral-veiculo a {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--azul-claro);
+  font-weight: 600;
+}
+
+.menu-lateral nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 20px;
+  font-size: 14px;
+  color: var(--cinza-texto);
+  font-weight: 500;
+  border-left: 3px solid transparent;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.menu-lateral nav a:hover {
+  background-color: var(--cinza-claro);
+  color: var(--azul-escuro);
+}
+
+.menu-lateral nav a.ativo {
+  background-color: var(--azul-claro-bg);
+  color: var(--azul-escuro);
+  border-left-color: var(--azul-escuro);
+  font-weight: 700;
+}
+
+.conteudo-veiculo {
+  flex: 1;
+  padding: 32px;
+  max-width: 1000px;
+}
+
+/* ===== CARDS DE INDICADORES ===== */
+.grid-indicadores {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.card-indicador {
+  background-color: var(--branco);
+  border-radius: var(--raio-borda);
+  box-shadow: var(--sombra-card);
+  padding: 20px;
+}
+
+.card-indicador span.rotulo {
+  display: block;
+  font-size: 12px;
+  color: var(--cinza-texto);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.card-indicador span.valor {
+  display: block;
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--preto-texto);
+}
+
+.card-indicador.alerta span.valor {
+  color: var(--amarelo-atencao);
+}
+
+/* ===== GRÁFICOS ===== */
+.grid-graficos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.card-grafico h4 {
+  font-size: 14px;
+  color: var(--preto-texto);
+  margin-bottom: 20px;
+}
+
+.card-grafico-vazio {
+  color: var(--cinza-texto);
+  font-size: 13px;
+  text-align: center;
+  padding: 30px 0;
+}
+
+/* --- Gráfico de barras (CSS puro) --- */
+.grafico-barras {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 160px;
+  padding-top: 10px;
+}
+
+.barra-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+}
+
+.barra-item .barra {
+  width: 100%;
+  max-width: 36px;
+  background-color: var(--azul-claro);
+  border-radius: 4px 4px 0 0;
+  transition: background-color 0.15s;
+  position: relative;
+}
+
+.barra-item:hover .barra {
+  background-color: var(--azul-escuro);
+}
+
+.barra-item .barra-valor {
+  font-size: 10px;
+  color: var(--cinza-texto);
+  margin-bottom: 4px;
+  white-space: nowrap;
+}
+
+.barra-item .barra-rotulo {
+  font-size: 11px;
+  color: var(--cinza-texto);
+  margin-top: 6px;
+}
+
+/* --- Gráfico de pizza (conic-gradient) --- */
+.grafico-pizza-container {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.grafico-pizza {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legenda-pizza {
+  flex: 1;
+}
+
+.legenda-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--preto-texto);
+  margin-bottom: 10px;
+}
+
+.legenda-cor {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.legenda-item span.valor-legenda {
+  margin-left: auto;
+  font-weight: 600;
+  color: var(--cinza-texto);
+}
+
+/* ===== LISTA SIMPLES (histórico recente) ===== */
+.lista-recente .item-lista {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--cinza-claro);
+  font-size: 13px;
+}
+
+.lista-recente .item-lista:last-child {
+  border-bottom: none;
+}
+
+.item-lista-titulo {
+  color: var(--preto-texto);
+  font-weight: 600;
+}
+
+.item-lista-sub {
+  color: var(--cinza-texto);
+  font-size: 12px;
+}
+
+.item-lista-valor {
+  color: var(--azul-escuro);
+  font-weight: 700;
+}
+
+.card-saude-principal {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 24px;
+}
+
+.medidor-saude {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.medidor-saude-interno {
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  background-color: var(--branco);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.medidor-saude-numero {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--preto-texto);
+}
+
+.medidor-saude-legenda {
+  font-size: 11px;
+  color: var(--cinza-texto);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.saude-classificacao {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.saude-classificacao.excelente { color: var(--verde-sucesso); }
+.saude-classificacao.atencao { color: var(--amarelo-atencao); }
+.saude-classificacao.necessita { color: var(--vermelho-erro); }
+
+.saude-info p {
+  font-size: 13px;
+  color: var(--cinza-texto);
+}
+
+.grid-criterios {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.card-criterio {
+  background-color: var(--branco);
+  border-radius: var(--raio-borda);
+  box-shadow: var(--sombra-card);
+  padding: 18px;
+}
+
+.card-criterio-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.card-criterio-nome {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--preto-texto);
+}
+
+.card-criterio-pontos {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.card-criterio-pontos.total { color: var(--verde-sucesso); }
+.card-criterio-pontos.parcial { color: var(--vermelho-erro); }
+
+.barra-progresso-fundo {
+  width: 100%;
+  height: 8px;
+  background-color: var(--cinza-claro);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.barra-progresso-preenchida {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s;
+}
+
+.card-criterio-detalhe {
+  font-size: 12px;
+  color: var(--cinza-texto);
+}
+
+@media (max-width: 900px) {
+  .layout-veiculo { flex-direction: column; }
+  .menu-lateral { width: 100%; }
+  .grid-graficos { grid-template-columns: 1fr; }
+}

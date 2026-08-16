@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GearUp - Financeiro</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/tabela.css">
+</head>
+<body>
+
+  <header class="topo">
+    <div class="topo-logo">🚗 GearUp</div>
+    <div class="topo-usuario">
+      <span id="nomeUsuarioTopo"></span>
+      <button id="btnSair">Sair</button>
+    </div>
+  </header>
+
+  <div class="layout-veiculo">
+    <aside class="menu-lateral" id="menuLateral"></aside>
+
+    <main class="conteudo-veiculo">
+      <div class="cabecalho-pagina">
+        <div>
+          <h2>Financeiro</h2>
+          <p>Todos os gastos do veículo, por categoria e período</p>
+        </div>
+        <button class="btn btn-primario" id="btnNova">+ Lançar Gasto</button>
+      </div>
+
+      <div class="grid-graficos" style="margin-bottom: 24px;">
+        <div class="card card-grafico">
+          <h4>Gastos por Categoria</h4>
+          <div id="graficoCategoria"></div>
+        </div>
+        <div class="card card-grafico">
+          <h4>Gastos Mensais</h4>
+          <div id="graficoMensal"></div>
+        </div>
+      </div>
+
+      <div class="cabecalho-pagina" style="margin-bottom: 12px;">
+        <h3 style="font-size: 16px;">Todos os lançamentos</h3>
+        <select id="filtroCategoria" style="max-width: 200px; padding: 8px 12px; border: 1px solid var(--cinza-medio); border-radius: 8px;">
+          <option value="">Todas as categorias</option>
+          <option value="Combustível">Combustível</option>
+          <option value="Manutenção">Manutenção</option>
+          <option value="Seguro">Seguro</option>
+          <option value="Pneus">Pneus</option>
+          <option value="Documentação">Documentação</option>
+          <option value="Outros">Outros</option>
+        </select>
+      </div>
+
+      <table class="tabela-dados">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Categoria</th>
+            <th>Descrição</th>
+            <th>Origem</th>
+            <th>Valor</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="corpoTabela"></tbody>
+      </table>
+    </main>
+  </div>
+
+  <!-- Modal de lançamento manual -->
+  <div id="modal" class="modal-fundo oculto">
+    <div class="modal-caixa">
+      <h3 class="modal-titulo">Lançar Gasto Manual</h3>
+
+      <div id="mensagemModal" class="mensagem mensagem-erro oculto"></div>
+
+      <form id="formItem">
+        <div class="campo-form">
+          <label for="categoria">Categoria *</label>
+          <select id="categoria" required>
+            <option value="">Selecione</option>
+            <option value="Combustível">Combustível</option>
+            <option value="Manutenção">Manutenção</option>
+            <option value="Seguro">Seguro</option>
+            <option value="Pneus">Pneus</option>
+            <option value="Documentação">Documentação</option>
+            <option value="Outros">Outros</option>
+          </select>
+        </div>
+
+        <div class="campo-form">
+          <label for="descricao">Descrição</label>
+          <input type="text" id="descricao" placeholder="Ex: Lavagem completa">
+        </div>
+
+        <div class="linha-2-colunas">
+          <div class="campo-form">
+            <label for="valor">Valor (R$) *</label>
+            <input type="number" id="valor" min="0" step="0.01" required>
+          </div>
+          <div class="campo-form">
+            <label for="dataGasto">Data *</label>
+            <input type="date" id="dataGasto" required>
+          </div>
+        </div>
+
+        <div class="modal-acoes">
+          <button type="button" class="btn btn-secundario" id="btnCancelar">Cancelar</button>
+          <button type="submit" class="btn btn-primario" id="btnSalvar">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/menu-lateral.js"></script>
+  <script src="js/financeiro.js"></script>
+</body>
+</html>

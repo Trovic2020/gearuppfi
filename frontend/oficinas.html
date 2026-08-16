@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GearUp - Oficinas</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/tabela.css">
+</head>
+<body>
+
+  <header class="topo">
+    <div class="topo-logo">🚗 GearUp</div>
+    <div class="topo-usuario">
+      <span id="nomeUsuarioTopo"></span>
+      <button id="btnSair">Sair</button>
+    </div>
+  </header>
+
+  <div class="layout-veiculo">
+    <aside class="menu-lateral" id="menuLateral"></aside>
+
+    <main class="conteudo-veiculo">
+      <div class="cabecalho-pagina">
+        <div>
+          <h2>Oficinas</h2>
+          <p>Oficinas cadastradas (compartilhadas entre todos os seus veículos)</p>
+        </div>
+        <button class="btn btn-primario" id="btnNova">+ Nova Oficina</button>
+      </div>
+
+      <table class="tabela-dados">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Telefone</th>
+            <th>Cidade</th>
+            <th>Endereço</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="corpoTabela"></tbody>
+      </table>
+    </main>
+  </div>
+
+  <!-- Modal de cadastro/edição -->
+  <div id="modal" class="modal-fundo oculto">
+    <div class="modal-caixa">
+      <h3 class="modal-titulo" id="tituloModal">Nova Oficina</h3>
+
+      <div id="mensagemModal" class="mensagem mensagem-erro oculto"></div>
+
+      <form id="formItem">
+        <input type="hidden" id="itemId">
+
+        <div class="campo-form">
+          <label for="nome">Nome *</label>
+          <input type="text" id="nome" required>
+        </div>
+
+        <div class="linha-2-colunas">
+          <div class="campo-form">
+            <label for="telefone">Telefone</label>
+            <input type="tel" id="telefone">
+          </div>
+          <div class="campo-form">
+            <label for="cidade">Cidade</label>
+            <input type="text" id="cidade">
+          </div>
+        </div>
+
+        <div class="campo-form">
+          <label for="endereco">Endereço</label>
+          <input type="text" id="endereco">
+        </div>
+
+        <div class="campo-form">
+          <label for="observacoes">Observações</label>
+          <textarea id="observacoes" rows="2"></textarea>
+        </div>
+
+        <div class="modal-acoes">
+          <button type="button" class="btn btn-secundario" id="btnCancelar">Cancelar</button>
+          <button type="submit" class="btn btn-primario" id="btnSalvar">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/menu-lateral.js"></script>
+  <script src="js/oficinas.js"></script>
+</body>
+</html>

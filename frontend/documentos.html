@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GearUp - Documentos</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/tabela.css">
+</head>
+<body>
+
+  <header class="topo">
+    <div class="topo-logo">🚗 GearUp</div>
+    <div class="topo-usuario">
+      <span id="nomeUsuarioTopo"></span>
+      <button id="btnSair">Sair</button>
+    </div>
+  </header>
+
+  <div class="layout-veiculo">
+    <aside class="menu-lateral" id="menuLateral"></aside>
+
+    <main class="conteudo-veiculo">
+      <div class="cabecalho-pagina">
+        <div>
+          <h2>Documentos</h2>
+          <p>Central de documentos digitais do veículo</p>
+        </div>
+        <button class="btn btn-primario" id="btnNova">+ Enviar Documento</button>
+      </div>
+
+      <div id="gridDocumentos" class="grid-documentos"></div>
+    </main>
+  </div>
+
+  <!-- Modal de upload -->
+  <div id="modal" class="modal-fundo oculto">
+    <div class="modal-caixa">
+      <h3 class="modal-titulo">Enviar Documento</h3>
+
+      <div id="mensagemModal" class="mensagem mensagem-erro oculto"></div>
+
+      <form id="formItem">
+        <div class="campo-form">
+          <label for="tipoDocumento">Tipo de documento *</label>
+          <select id="tipoDocumento" required>
+            <option value="">Selecione</option>
+            <option value="CRLV">CRLV</option>
+            <option value="Licenciamento">Licenciamento</option>
+            <option value="IPVA">IPVA</option>
+            <option value="Seguro">Seguro</option>
+            <option value="Laudo">Laudo</option>
+            <option value="Outros">Outros</option>
+          </select>
+        </div>
+
+        <div class="campo-form">
+          <label for="dataVencimento">Data de vencimento (se houver)</label>
+          <input type="date" id="dataVencimento">
+        </div>
+
+        <div class="campo-form">
+          <label for="observacoes">Observações</label>
+          <textarea id="observacoes" rows="2"></textarea>
+        </div>
+
+        <div class="campo-form">
+          <label for="arquivo">Arquivo (PDF, JPG ou PNG) *</label>
+          <input type="file" id="arquivo" accept=".pdf,.jpg,.jpeg,.png" required>
+        </div>
+
+        <div class="modal-acoes">
+          <button type="button" class="btn btn-secundario" id="btnCancelar">Cancelar</button>
+          <button type="submit" class="btn btn-primario" id="btnSalvar">Enviar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/menu-lateral.js"></script>
+  <script src="js/documentos.js"></script>
+</body>
+</html>

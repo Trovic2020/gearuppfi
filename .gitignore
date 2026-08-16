@@ -1,0 +1,21 @@
+# Dependências
+node_modules/
+
+# Variáveis de ambiente (contém senhas e chaves secretas)
+.env
+.env.local
+
+# Arquivos enviados pelos usuários (fotos, documentos)
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Logs
+npm-debug.log*
+*.log
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/

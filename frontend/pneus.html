@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GearUp - Pneus</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/tabela.css">
+</head>
+<body>
+
+  <header class="topo">
+    <div class="topo-logo">🚗 GearUp</div>
+    <div class="topo-usuario">
+      <span id="nomeUsuarioTopo"></span>
+      <button id="btnSair">Sair</button>
+    </div>
+  </header>
+
+  <div class="layout-veiculo">
+    <aside class="menu-lateral" id="menuLateral"></aside>
+
+    <main class="conteudo-veiculo">
+      <div class="cabecalho-pagina">
+        <div>
+          <h2>Pneus</h2>
+          <p>Controle de vida útil e substituição</p>
+        </div>
+        <button class="btn btn-primario" id="btnNova">+ Novo Pneu</button>
+      </div>
+
+      <table class="tabela-dados">
+        <thead>
+          <tr>
+            <th>Marca/Modelo</th>
+            <th>Posição</th>
+            <th>Instalado em</th>
+            <th>Vida útil</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="corpoTabela"></tbody>
+      </table>
+    </main>
+  </div>
+
+  <!-- Modal de cadastro/edição -->
+  <div id="modal" class="modal-fundo oculto">
+    <div class="modal-caixa">
+      <h3 class="modal-titulo" id="tituloModal">Novo Pneu</h3>
+
+      <div id="mensagemModal" class="mensagem mensagem-erro oculto"></div>
+
+      <form id="formItem">
+        <input type="hidden" id="itemId">
+
+        <div class="linha-2-colunas">
+          <div class="campo-form">
+            <label for="marca">Marca *</label>
+            <input type="text" id="marca" required>
+          </div>
+          <div class="campo-form">
+            <label for="modelo">Modelo</label>
+            <input type="text" id="modelo">
+          </div>
+        </div>
+
+        <div class="campo-form">
+          <label for="posicao">Posição</label>
+          <select id="posicao">
+            <option value="Jogo Completo">Jogo Completo</option>
+            <option value="Dianteiro Esquerdo">Dianteiro Esquerdo</option>
+            <option value="Dianteiro Direito">Dianteiro Direito</option>
+            <option value="Traseiro Esquerdo">Traseiro Esquerdo</option>
+            <option value="Traseiro Direito">Traseiro Direito</option>
+            <option value="Estepe">Estepe</option>
+          </select>
+        </div>
+
+        <div class="linha-2-colunas">
+          <div class="campo-form">
+            <label for="dataInstalacao">Data de instalação *</label>
+            <input type="date" id="dataInstalacao" required>
+          </div>
+          <div class="campo-form">
+            <label for="quilometragemInstalacao">Km na instalação *</label>
+            <input type="number" id="quilometragemInstalacao" min="0" required>
+          </div>
+        </div>
+
+        <div class="campo-form">
+          <label for="vidaUtilKm">Vida útil estimada (km)</label>
+          <input type="number" id="vidaUtilKm" min="0" placeholder="Padrão: 50000">
+        </div>
+
+        <div class="campo-form">
+          <label for="observacoes">Observações</label>
+          <textarea id="observacoes" rows="2"></textarea>
+        </div>
+
+        <div class="modal-acoes">
+          <button type="button" class="btn btn-secundario" id="btnCancelar">Cancelar</button>
+          <button type="submit" class="btn btn-primario" id="btnSalvar">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/menu-lateral.js"></script>
+  <script src="js/pneus.js"></script>
+</body>
+</html>

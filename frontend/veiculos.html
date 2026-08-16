@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GearUp - Meus Veículos</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/layout.css">
+</head>
+<body>
+
+  <header class="topo">
+    <div class="topo-logo">🚗 GearUp</div>
+    <div class="topo-usuario">
+      <a href="perfil.html" style="font-size: 14px; color: var(--azul-escuro); font-weight: 600;">Meu Perfil</a>
+      <span id="nomeUsuarioTopo"></span>
+      <button id="btnSair">Sair</button>
+    </div>
+
+  </header>
+
+  <div class="container-pagina">
+    <div class="cabecalho-pagina">
+      <div>
+        <h2>Meus Veículos</h2>
+        <p>Selecione um veículo para gerenciar ou cadastre um novo</p>
+      </div>
+      <button class="btn btn-primario" id="btnNovoVeiculo">+ Novo Veículo</button>
+    </div>
+
+    <div id="listaVeiculos" class="grid-veiculos"></div>
+
+    <div id="estadoVazio" class="estado-vazio oculto">
+      <p>Você ainda não cadastrou nenhum veículo.</p>
+      <button class="btn btn-primario" id="btnNovoVeiculoVazio">Cadastrar meu primeiro veículo</button>
+    </div>
+  </div>
+
+  <!-- Modal de cadastro/edição de veículo -->
+  <div id="modalVeiculo" class="modal-fundo oculto">
+    <div class="modal-caixa">
+      <h3 class="modal-titulo" id="tituloModalVeiculo">Novo Veículo</h3>
+
+      <div id="mensagemModalVeiculo" class="mensagem mensagem-erro oculto"></div>
+
+      <form id="formVeiculo">
+        <input type="hidden" id="veiculoId">
+
+        <div class="linha-2-colunas">
+          <div class="campo-form">
+            <label for="marca">Marca *</label>
+            <input type="text" id="marca" required>
+          </div>
+          <div class="campo-form">
+            <label for="modelo">Modelo *</label>
+            <input type="text" id="modelo" required>
+          </div>
+        </div>
+
+        <div class="linha-2-colunas">
+          <div class="campo-form">
+            <label for="anoFabricacao">Ano fabricação</label>
+            <input type="number" id="anoFabricacao" min="1950" max="2100">
+          </div>
+          <div class="campo-form">
+            <label for="anoModelo">Ano modelo</label>
+            <input type="number" id="anoModelo" min="1950" max="2100">
+          </div>
+        </div>
+
+        <div class="linha-2-colunas">
+          <div class="campo-form">
+            <label for="cor">Cor</label>
+            <input type="text" id="cor">
+          </div>
+          <div class="campo-form">
+            <label for="placa">Placa *</label>
+            <input type="text" id="placa" required maxlength="10" style="text-transform: uppercase;">
+          </div>
+        </div>
+
+        <div class="linha-2-colunas">
+          <div class="campo-form">
+            <label for="quilometragemAtual">Quilometragem atual</label>
+            <input type="number" id="quilometragemAtual" min="0">
+          </div>
+          <div class="campo-form">
+            <label for="tipoCombustivel">Combustível *</label>
+            <select id="tipoCombustivel" required>
+              <option value="">Selecione</option>
+              <option value="Gasolina">Gasolina</option>
+              <option value="Etanol">Etanol</option>
+              <option value="Flex">Flex</option>
+              <option value="Diesel">Diesel</option>
+              <option value="GNV">GNV</option>
+              <option value="Elétrico">Elétrico</option>
+              <option value="Híbrido">Híbrido</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="campo-form">
+          <label for="dataAquisicao">Data de aquisição</label>
+          <input type="date" id="dataAquisicao">
+        </div>
+
+        <div class="campo-form">
+            <label for="fotoVeiculo">Foto do veículo</label>
+            <input type="file" id="fotoVeiculo" accept="image/jpeg,image/png,image/webp">
+            <img id="previaFoto" src="" alt="" style="display:none; margin-top: 10px; width: 100%; max-height: 160px; object-fit: cover; border-radius: 8px;">
+        </div>
+
+        <div class="modal-acoes">
+          <button type="button" class="btn btn-secundario" id="btnCancelarVeiculo">Cancelar</button>
+          <button type="submit" class="btn btn-primario" id="btnSalvarVeiculo">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/veiculos.js"></script>
+</body>
+</html>

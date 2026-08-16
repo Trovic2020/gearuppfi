@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GearUp - Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+  <header class="topo">
+    <div class="topo-logo">🚗 GearUp</div>
+    <div class="topo-usuario">
+      <span id="nomeUsuarioTopo"></span>
+      <button id="btnSair">Sair</button>
+    </div>
+  </header>
+
+  <div class="layout-veiculo">
+    <aside class="menu-lateral" id="menuLateral"></aside>
+
+    <main class="conteudo-veiculo">
+      <div class="cabecalho-pagina">
+        <div>
+          <h2>Dashboard</h2>
+          <p>Visão geral do seu veículo</p>
+        </div>
+        <button class="btn btn-secundario" id="btnBaixarRelatorio">📄 Baixar Relatório PDF</button>
+      </div>
+
+      <div id="grid-indicadores" class="grid-indicadores"></div>
+
+      <div class="grid-graficos">
+        <div class="card card-grafico">
+          <h4>Gastos por Categoria (ano atual)</h4>
+          <div id="graficoCategoria"></div>
+        </div>
+        <div class="card card-grafico">
+          <h4>Gastos Mensais (últimos 12 meses)</h4>
+          <div id="graficoMensal"></div>
+        </div>
+      </div>
+
+      <div class="grid-graficos">
+        <div class="card card-grafico">
+          <h4>Histórico de Manutenção Recente</h4>
+          <div id="listaManutencaoRecente"></div>
+        </div>
+        <div class="card card-grafico">
+          <h4>Consumo de Combustível</h4>
+          <div id="graficoConsumo"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/menu-lateral.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

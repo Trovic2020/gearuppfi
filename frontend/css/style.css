@@ -1,0 +1,182 @@
+/* ===== VARIÁVEIS GLOBAIS ===== */
+:root {
+  --azul-escuro: #0C447C;
+  --azul-escuro-hover: #0a3763;
+  --azul-claro: #4A90D9;
+  --azul-claro-bg: #EAF2FB;
+  --branco: #FFFFFF;
+  --cinza-claro: #F4F6F8;
+  --cinza-medio: #D8DCE1;
+  --cinza-texto: #5B6472;
+  --preto-texto: #1F2937;
+  --verde-sucesso: #2E9E5B;
+  --amarelo-atencao: #E0A32A;
+  --vermelho-erro: #D64545;
+
+  --sombra-card: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --raio-borda: 10px;
+  --fonte-padrao: 'Segoe UI', Arial, sans-serif;
+}
+
+/* ===== RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--fonte-padrao);
+  background-color: var(--cinza-claro);
+  color: var(--preto-texto);
+  line-height: 1.5;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  font-size: 14px;
+}
+
+/* ===== BOTÕES REUTILIZÁVEIS ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: var(--raio-borda);
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.2s, opacity 0.2s;
+}
+
+.btn-primario {
+  background-color: var(--azul-escuro);
+  color: var(--branco);
+}
+.btn-primario:hover {
+  background-color: var(--azul-escuro-hover);
+}
+
+.btn-secundario {
+  background-color: var(--branco);
+  color: var(--azul-escuro);
+  border: 1px solid var(--azul-escuro);
+}
+.btn-secundario:hover {
+  background-color: var(--azul-claro-bg);
+}
+
+.btn-perigo {
+  background-color: var(--vermelho-erro);
+  color: var(--branco);
+}
+.btn-perigo:hover {
+  opacity: 0.9;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-full {
+  width: 100%;
+}
+
+/* ===== CARDS ===== */
+.card {
+  background-color: var(--branco);
+  border-radius: var(--raio-borda);
+  box-shadow: var(--sombra-card);
+  padding: 24px;
+}
+
+/* ===== FORMULÁRIOS ===== */
+.campo-form {
+  margin-bottom: 16px;
+}
+
+.campo-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cinza-texto);
+}
+
+.campo-form input,
+.campo-form select,
+.campo-form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--cinza-medio);
+  border-radius: 8px;
+  background-color: var(--branco);
+  transition: border-color 0.2s;
+}
+
+.campo-form input:focus,
+.campo-form select:focus,
+.campo-form textarea:focus {
+  outline: none;
+  border-color: var(--azul-claro);
+}
+
+.linha-2-colunas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* ===== MENSAGENS DE ALERTA/ERRO ===== */
+.mensagem {
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.mensagem-erro {
+  background-color: #FDEDED;
+  color: var(--vermelho-erro);
+  border: 1px solid #F5C6C6;
+}
+
+.mensagem-sucesso {
+  background-color: #EAF7EF;
+  color: var(--verde-sucesso);
+  border: 1px solid #C3E6D0;
+}
+
+.mensagem-atencao {
+  background-color: #FDF6E3;
+  color: var(--amarelo-atencao);
+  border: 1px solid #F2E0A8;
+}
+
+.oculto {
+  display: none !important;
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 640px) {
+  .linha-2-colunas {
+    grid-template-columns: 1fr;
+  }
+}
