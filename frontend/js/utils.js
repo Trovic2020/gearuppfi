@@ -43,7 +43,7 @@ function esconderMensagem(elementoId) {
 function exigirLogin() {
   const token = localStorage.getItem('gearup_token');
   if (!token) {
-    window.location.href = 'index.html';
+    window.location.href = 'login.html';
   }
 }
 

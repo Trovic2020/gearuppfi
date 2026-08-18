@@ -1,101 +1,108 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GearUp - Seguro</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/dashboard.css">
-  <link rel="stylesheet" href="css/tabela.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GearUp — Seguro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app-tech.css">
 </head>
 <body>
 
-  <header class="topo">
-    <div class="topo-logo">🚗 GearUp</div>
-    <div class="topo-usuario">
-      <span id="nomeUsuarioTopo"></span>
-      <button id="btnSair">Sair</button>
+<div class="fundo-grade" aria-hidden="true"></div>
+
+<header class="topo">
+  <a href="veiculos.html" class="nav-logo">
+    <span class="nav-logo-icone">◈</span>
+    GearUp
+  </a>
+  <div class="topo-usuario">
+    <span id="nomeUsuarioTopo"></span>
+    <button id="btnSair" class="btn-sair">Sair</button>
+  </div>
+</header>
+
+<div class="layout-app">
+  <aside class="menu-lateral" id="menuLateral"></aside>
+
+  <main class="conteudo-app">
+    <div class="cabecalho-pagina">
+      <div>
+        <span class="etiqueta-tecnica">GU · SEG</span>
+        <h2>Seguro</h2>
+        <p>Controle de apólices e vencimentos</p>
+      </div>
+      <button class="btn btn-primario" id="btnNova">+ Novo seguro</button>
     </div>
-  </header>
 
-  <div class="layout-veiculo">
-    <aside class="menu-lateral" id="menuLateral"></aside>
+    <table class="tabela-dados">
+      <thead>
+        <tr>
+          <th>Seguradora</th>
+          <th>Apólice</th>
+          <th>Contratação</th>
+          <th>Vencimento</th>
+          <th>Valor</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="corpoTabela"></tbody>
+    </table>
+  </main>
+</div>
 
-    <main class="conteudo-veiculo">
-      <div class="cabecalho-pagina">
-        <div>
-          <h2>Seguro</h2>
-          <p>Controle de apólices e vencimentos</p>
+<!-- ===== MODAL DE CADASTRO/EDIÇÃO ===== -->
+<div id="modal" class="modal-fundo oculto">
+  <div class="modal-caixa">
+    <span class="etiqueta-tecnica">GU · SEG</span>
+    <h3 class="modal-titulo" id="tituloModal">Novo seguro</h3>
+
+    <div id="mensagemModal" class="mensagem mensagem-erro oculto"></div>
+
+    <form id="formItem">
+      <input type="hidden" id="itemId">
+
+      <div class="linha-2-colunas">
+        <div class="campo-form">
+          <label for="seguradora">Seguradora *</label>
+          <input type="text" id="seguradora" required>
         </div>
-        <button class="btn btn-primario" id="btnNova">+ Novo Seguro</button>
+        <div class="campo-form">
+          <label for="numeroApolice">Número da apólice</label>
+          <input type="text" id="numeroApolice">
+        </div>
       </div>
 
-      <table class="tabela-dados">
-        <thead>
-          <tr>
-            <th>Seguradora</th>
-            <th>Apólice</th>
-            <th>Contratação</th>
-            <th>Vencimento</th>
-            <th>Valor</th>
-            <th>Status</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="corpoTabela"></tbody>
-      </table>
-    </main>
-  </div>
-
-  <!-- Modal de cadastro/edição -->
-  <div id="modal" class="modal-fundo oculto">
-    <div class="modal-caixa">
-      <h3 class="modal-titulo" id="tituloModal">Novo Seguro</h3>
-
-      <div id="mensagemModal" class="mensagem mensagem-erro oculto"></div>
-
-      <form id="formItem">
-        <input type="hidden" id="itemId">
-
-        <div class="linha-2-colunas">
-          <div class="campo-form">
-            <label for="seguradora">Seguradora *</label>
-            <input type="text" id="seguradora" required>
-          </div>
-          <div class="campo-form">
-            <label for="numeroApolice">Número da apólice</label>
-            <input type="text" id="numeroApolice">
-          </div>
-        </div>
-
-        <div class="linha-2-colunas">
-          <div class="campo-form">
-            <label for="dataContratacao">Data de contratação *</label>
-            <input type="date" id="dataContratacao" required>
-          </div>
-          <div class="campo-form">
-            <label for="dataVencimento">Data de vencimento *</label>
-            <input type="date" id="dataVencimento" required>
-          </div>
-        </div>
-
+      <div class="linha-2-colunas">
         <div class="campo-form">
-          <label for="valor">Valor do seguro (R$)</label>
-          <input type="number" id="valor" min="0" step="0.01">
+          <label for="dataContratacao">Data de contratação *</label>
+          <input type="date" id="dataContratacao" required>
         </div>
+        <div class="campo-form">
+          <label for="dataVencimento">Data de vencimento *</label>
+          <input type="date" id="dataVencimento" required>
+        </div>
+      </div>
 
-        <div class="modal-acoes">
-          <button type="button" class="btn btn-secundario" id="btnCancelar">Cancelar</button>
-          <button type="submit" class="btn btn-primario" id="btnSalvar">Salvar</button>
-        </div>
-      </form>
-    </div>
+      <div class="campo-form">
+        <label for="valor">Valor do seguro (R$)</label>
+        <input type="number" id="valor" min="0" step="0.01">
+      </div>
+
+      <div class="modal-acoes">
+        <button type="button" class="btn btn-secundario" id="btnCancelar">Cancelar</button>
+        <button type="submit" class="btn btn-primario" id="btnSalvar">Salvar</button>
+      </div>
+    </form>
   </div>
+</div>
 
-  <script src="js/api.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/menu-lateral.js"></script>
-  <script src="js/seguros.js"></script>
+<script src="js/api.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/menu-lateral.js"></script>
+<script src="js/seguros.js"></script>
 </body>
 </html>

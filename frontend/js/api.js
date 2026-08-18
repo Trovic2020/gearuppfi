@@ -30,8 +30,8 @@ async function apiRequest(endpoint, metodo = 'GET', dados = null, comArquivo = f
   if (resposta.status === 401) {
     localStorage.removeItem('gearup_token');
     localStorage.removeItem('gearup_usuario');
-    if (!window.location.pathname.includes('index.html') && window.location.pathname !== '/') {
-      window.location.href = 'index.html';
+    if (!window.location.pathname.includes('login.html') && window.location.pathname !== '/') {
+      window.location.href = 'login.html';
     }
   }
 

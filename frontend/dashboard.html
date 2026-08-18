@@ -1,64 +1,71 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GearUp - Dashboard</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/dashboard.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GearUp — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app-tech.css">
 </head>
 <body>
 
-  <header class="topo">
-    <div class="topo-logo">🚗 GearUp</div>
-    <div class="topo-usuario">
-      <span id="nomeUsuarioTopo"></span>
-      <button id="btnSair">Sair</button>
-    </div>
-  </header>
+<div class="fundo-grade" aria-hidden="true"></div>
 
-  <div class="layout-veiculo">
-    <aside class="menu-lateral" id="menuLateral"></aside>
-
-    <main class="conteudo-veiculo">
-      <div class="cabecalho-pagina">
-        <div>
-          <h2>Dashboard</h2>
-          <p>Visão geral do seu veículo</p>
-        </div>
-        <button class="btn btn-secundario" id="btnBaixarRelatorio">📄 Baixar Relatório PDF</button>
-      </div>
-
-      <div id="grid-indicadores" class="grid-indicadores"></div>
-
-      <div class="grid-graficos">
-        <div class="card card-grafico">
-          <h4>Gastos por Categoria (ano atual)</h4>
-          <div id="graficoCategoria"></div>
-        </div>
-        <div class="card card-grafico">
-          <h4>Gastos Mensais (últimos 12 meses)</h4>
-          <div id="graficoMensal"></div>
-        </div>
-      </div>
-
-      <div class="grid-graficos">
-        <div class="card card-grafico">
-          <h4>Histórico de Manutenção Recente</h4>
-          <div id="listaManutencaoRecente"></div>
-        </div>
-        <div class="card card-grafico">
-          <h4>Consumo de Combustível</h4>
-          <div id="graficoConsumo"></div>
-        </div>
-      </div>
-    </main>
+<header class="topo">
+  <a href="veiculos.html" class="nav-logo">
+    <span class="nav-logo-icone">◈</span>
+    GearUp
+  </a>
+  <div class="topo-usuario">
+    <span id="nomeUsuarioTopo"></span>
+    <button id="btnSair" class="btn-sair">Sair</button>
   </div>
+</header>
 
-  <script src="js/api.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/menu-lateral.js"></script>
-  <script src="js/dashboard.js"></script>
+<div class="layout-app">
+  <aside class="menu-lateral" id="menuLateral"></aside>
+
+  <main class="conteudo-app">
+    <div class="cabecalho-pagina">
+      <div>
+        <span class="etiqueta-tecnica">GU · DASHBOARD</span>
+        <h2>Dashboard</h2>
+        <p>Visão geral do seu veículo</p>
+      </div>
+      <button class="btn btn-secundario" id="btnBaixarRelatorio">↓ Baixar relatório PDF</button>
+    </div>
+
+    <div id="grid-indicadores" class="grid-indicadores"></div>
+
+    <div class="grid-graficos">
+      <div class="card-grafico">
+        <h4>Gastos por categoria <span class="h4-sub">(ano atual)</span></h4>
+        <div id="graficoCategoria"></div>
+      </div>
+      <div class="card-grafico">
+        <h4>Gastos mensais <span class="h4-sub">(últimos 12 meses)</span></h4>
+        <div id="graficoMensal"></div>
+      </div>
+    </div>
+
+    <div class="grid-graficos">
+      <div class="card-grafico">
+        <h4>Manutenções recentes</h4>
+        <div id="listaManutencaoRecente"></div>
+      </div>
+      <div class="card-grafico">
+        <h4>Consumo de combustível</h4>
+        <div id="graficoConsumo"></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/menu-lateral.js"></script>
+<script src="js/dashboard.js"></script>
 </body>
 </html>

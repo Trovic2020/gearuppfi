@@ -1,107 +1,114 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GearUp - Manutenções</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/dashboard.css">
-  <link rel="stylesheet" href="css/tabela.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GearUp — Manutenções</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app-tech.css">
 </head>
 <body>
 
-  <header class="topo">
-    <div class="topo-logo">🚗 GearUp</div>
-    <div class="topo-usuario">
-      <span id="nomeUsuarioTopo"></span>
-      <button id="btnSair">Sair</button>
+<div class="fundo-grade" aria-hidden="true"></div>
+
+<header class="topo">
+  <a href="veiculos.html" class="nav-logo">
+    <span class="nav-logo-icone">◈</span>
+    GearUp
+  </a>
+  <div class="topo-usuario">
+    <span id="nomeUsuarioTopo"></span>
+    <button id="btnSair" class="btn-sair">Sair</button>
+  </div>
+</header>
+
+<div class="layout-app">
+  <aside class="menu-lateral" id="menuLateral"></aside>
+
+  <main class="conteudo-app">
+    <div class="cabecalho-pagina">
+      <div>
+        <span class="etiqueta-tecnica">GU · MNT</span>
+        <h2>Manutenções</h2>
+        <p>Histórico de serviços realizados no veículo</p>
+      </div>
+      <button class="btn btn-primario" id="btnNova">+ Nova manutenção</button>
     </div>
-  </header>
 
-  <div class="layout-veiculo">
-    <aside class="menu-lateral" id="menuLateral"></aside>
+    <table class="tabela-dados">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Serviço</th>
+          <th>Km</th>
+          <th>Oficina</th>
+          <th>Valor</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="corpoTabela"></tbody>
+    </table>
+  </main>
+</div>
 
-    <main class="conteudo-veiculo">
-      <div class="cabecalho-pagina">
-        <div>
-          <h2>Manutenções</h2>
-          <p>Histórico de serviços realizados no veículo</p>
-        </div>
-        <button class="btn btn-primario" id="btnNova">+ Nova Manutenção</button>
+<!-- ===== MODAL DE CADASTRO/EDIÇÃO ===== -->
+<div id="modal" class="modal-fundo oculto">
+  <div class="modal-caixa">
+    <span class="etiqueta-tecnica">GU · MNT</span>
+    <h3 class="modal-titulo" id="tituloModal">Nova manutenção</h3>
+
+    <div id="mensagemModal" class="mensagem mensagem-erro oculto"></div>
+
+    <form id="formItem">
+      <input type="hidden" id="itemId">
+
+      <div class="campo-form">
+        <label for="tipoServico">Tipo de serviço *</label>
+        <input type="text" id="tipoServico" placeholder="Ex: Troca de óleo" required>
       </div>
 
-      <table class="tabela-dados">
-        <thead>
-          <tr>
-            <th>Data</th>
-            <th>Serviço</th>
-            <th>Km</th>
-            <th>Oficina</th>
-            <th>Valor</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="corpoTabela"></tbody>
-      </table>
-    </main>
-  </div>
-
-  <!-- Modal de cadastro/edição -->
-  <div id="modal" class="modal-fundo oculto">
-    <div class="modal-caixa">
-      <h3 class="modal-titulo" id="tituloModal">Nova Manutenção</h3>
-
-      <div id="mensagemModal" class="mensagem mensagem-erro oculto"></div>
-
-      <form id="formItem">
-        <input type="hidden" id="itemId">
-
+      <div class="linha-2-colunas">
         <div class="campo-form">
-          <label for="tipoServico">Tipo de serviço *</label>
-          <input type="text" id="tipoServico" placeholder="Ex: Troca de óleo" required>
+          <label for="dataServico">Data *</label>
+          <input type="date" id="dataServico" required>
         </div>
-
-        <div class="linha-2-colunas">
-          <div class="campo-form">
-            <label for="dataServico">Data *</label>
-            <input type="date" id="dataServico" required>
-          </div>
-          <div class="campo-form">
-            <label for="quilometragem">Quilometragem *</label>
-            <input type="number" id="quilometragem" min="0" required>
-          </div>
-        </div>
-
-        <div class="linha-2-colunas">
-          <div class="campo-form">
-            <label for="oficinaId">Oficina</label>
-            <select id="oficinaId">
-              <option value="">Nenhuma</option>
-            </select>
-          </div>
-          <div class="campo-form">
-            <label for="valor">Valor (R$)</label>
-            <input type="number" id="valor" min="0" step="0.01">
-          </div>
-        </div>
-
         <div class="campo-form">
-          <label for="observacoes">Observações</label>
-          <textarea id="observacoes" rows="3"></textarea>
+          <label for="quilometragem">Quilometragem *</label>
+          <input type="number" id="quilometragem" min="0" required>
         </div>
+      </div>
 
-        <div class="modal-acoes">
-          <button type="button" class="btn btn-secundario" id="btnCancelar">Cancelar</button>
-          <button type="submit" class="btn btn-primario" id="btnSalvar">Salvar</button>
+      <div class="linha-2-colunas">
+        <div class="campo-form">
+          <label for="oficinaId">Oficina</label>
+          <select id="oficinaId">
+            <option value="">Nenhuma</option>
+          </select>
         </div>
-      </form>
-    </div>
+        <div class="campo-form">
+          <label for="valor">Valor (R$)</label>
+          <input type="number" id="valor" min="0" step="0.01">
+        </div>
+      </div>
+
+      <div class="campo-form">
+        <label for="observacoes">Observações</label>
+        <textarea id="observacoes" rows="3"></textarea>
+      </div>
+
+      <div class="modal-acoes">
+        <button type="button" class="btn btn-secundario" id="btnCancelar">Cancelar</button>
+        <button type="submit" class="btn btn-primario" id="btnSalvar">Salvar</button>
+      </div>
+    </form>
   </div>
+</div>
 
-  <script src="js/api.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/menu-lateral.js"></script>
-  <script src="js/manutencoes.js"></script>
+<script src="js/api.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/menu-lateral.js"></script>
+<script src="js/manutencoes.js"></script>
 </body>
 </html>

@@ -1,16 +1,14 @@
 exigirLogin();
 
-BASE_URL_ARQUIVOS = 'http://localhost:3000';
-
-// ===== ESTADO =====
-let veiculoEmEdicao = null;
-
 // ===== ELEMENTOS =====
 const listaVeiculos = document.getElementById('listaVeiculos');
 const estadoVazio = document.getElementById('estadoVazio');
 const modalVeiculo = document.getElementById('modalVeiculo');
 const formVeiculo = document.getElementById('formVeiculo');
 const tituloModalVeiculo = document.getElementById('tituloModalVeiculo');
+const previaFoto = document.getElementById('previaFoto');
+
+const BASE_URL_ARQUIVOS = 'http://localhost:3000';
 
 // ===== EXIBE NOME DO USUÁRIO NO TOPO =====
 const usuario = usuarioLogado();
@@ -37,19 +35,25 @@ async function carregarVeiculos() {
 
     listaVeiculos.innerHTML = veiculos.map(v => `
       <div class="card-veiculo" data-id="${v.id}">
-        <button class="card-veiculo-excluir" data-excluir-id="${v.id}" title="Excluir veículo">×</button>
+        <div class="card-veiculo-acoes">
+          <button class="card-veiculo-editar" data-editar-id="${v.id}" title="Editar veículo">✎</button>
+          <button class="card-veiculo-excluir" data-excluir-id="${v.id}" title="Excluir veículo">×</button>
+        </div>
         <div class="card-veiculo-foto">
-          ${v.foto_url ? `<img src="${BASE_URL_ARQUIVOS}${v.foto_url}" alt="${v.modelo}">` : '🚗'}
+          ${v.foto_url
+            ? `<img src="${BASE_URL_ARQUIVOS}${v.foto_url}" alt="${v.modelo}">`
+            : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 17h14M6 17l1.5-5.5A2 2 0 0 1 9.4 10h5.2a2 2 0 0 1 1.9 1.5L18 17M7 17v2a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3M18 17v2a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="17" r="1.4"/><circle cx="16" cy="17" r="1.4"/></svg>`
+          }
         </div>
         <div class="card-veiculo-info">
           <h3>${v.marca} ${v.modelo}</h3>
-          <p>${formatarKm(v.quilometragem_atual)} • ${v.tipo_combustivel}</p>
+          <p>${formatarKm(v.quilometragem_atual)} · ${v.tipo_combustivel}</p>
           <span class="card-veiculo-placa">${v.placa}</span>
         </div>
       </div>
     `).join('');
 
-    // Clique no card leva pro dashboard daquele veículo
+    // Clique no card (fora dos botões) leva pro dashboard daquele veículo
     document.querySelectorAll('.card-veiculo').forEach(card => {
       card.addEventListener('click', () => {
         const veiculo = veiculos.find(v => v.id == card.dataset.id);
@@ -58,11 +62,10 @@ async function carregarVeiculos() {
       });
     });
 
-    // Clique no botão "×" exclui o veículo, sem abrir o dashboard
+    // Botão de excluir
     document.querySelectorAll('.card-veiculo-excluir').forEach(botao => {
       botao.addEventListener('click', async (evento) => {
-        evento.stopPropagation(); // impede que o clique "vaze" pro card por trás
-
+        evento.stopPropagation();
         const id = botao.dataset.excluirId;
         const veiculo = veiculos.find(v => v.id == id);
 
@@ -78,6 +81,15 @@ async function carregarVeiculos() {
       });
     });
 
+    // Botão de editar
+    document.querySelectorAll('.card-veiculo-editar').forEach(botao => {
+      botao.addEventListener('click', (evento) => {
+        evento.stopPropagation();
+        const veiculo = veiculos.find(v => v.id == botao.dataset.editarId);
+        abrirModalEditarVeiculo(veiculo);
+      });
+    });
+
   } catch (erro) {
     alert('Erro ao carregar veículos: ' + erro.message);
   }
@@ -87,10 +99,11 @@ carregarVeiculos();
 
 // ===== ABRIR MODAL: NOVO VEÍCULO =====
 function abrirModalNovoVeiculo() {
-  veiculoEmEdicao = null;
-  tituloModalVeiculo.textContent = 'Novo Veículo';
+  tituloModalVeiculo.textContent = 'Novo veículo';
   formVeiculo.reset();
   document.getElementById('veiculoId').value = '';
+  previaFoto.style.display = 'none';
+  previaFoto.src = '';
   esconderMensagem('mensagemModalVeiculo');
   modalVeiculo.classList.remove('oculto');
 }
@@ -98,10 +111,9 @@ function abrirModalNovoVeiculo() {
 document.getElementById('btnNovoVeiculo').addEventListener('click', abrirModalNovoVeiculo);
 document.getElementById('btnNovoVeiculoVazio').addEventListener('click', abrirModalNovoVeiculo);
 
-
+// ===== ABRIR MODAL: EDITAR VEÍCULO =====
 function abrirModalEditarVeiculo(veiculo) {
-  veiculoEmEdicao = veiculo;
-  tituloModal_setTexto('Editar Veículo');
+  tituloModalVeiculo.textContent = 'Editar veículo';
   document.getElementById('veiculoId').value = veiculo.id;
   document.getElementById('marca').value = veiculo.marca;
   document.getElementById('modelo').value = veiculo.modelo;
@@ -112,38 +124,25 @@ function abrirModalEditarVeiculo(veiculo) {
   document.getElementById('quilometragemAtual').value = veiculo.quilometragem_atual;
   document.getElementById('tipoCombustivel').value = veiculo.tipo_combustivel;
   document.getElementById('dataAquisicao').value = formatarDataParaInput(veiculo.data_aquisicao);
+  document.getElementById('fotoVeiculo').value = '';
 
-  const previa = document.getElementById('previaFoto');
   if (veiculo.foto_url) {
-    previa.src = `http://localhost:3000${veiculo.foto_url}`;
-    previa.style.display = 'block';
+    previaFoto.src = `${BASE_URL_ARQUIVOS}${veiculo.foto_url}`;
+    previaFoto.style.display = 'block';
   } else {
-    previa.style.display = 'none';
+    previaFoto.style.display = 'none';
   }
 
   esconderMensagem('mensagemModalVeiculo');
   modalVeiculo.classList.remove('oculto');
 }
 
-function tituloModal_setTexto(texto) {
-  document.getElementById('tituloModalVeiculo').textContent = texto;
-}
-
-// Listener dos botões de editar (adicione junto aos outros listeners de card, dentro de carregarVeiculos)
-document.querySelectorAll('.card-veiculo-editar').forEach(botao => {
-  botao.addEventListener('click', (evento) => {
-    evento.stopPropagation();
-    const veiculo = veiculos.find(v => v.id == botao.dataset.editarId);
-    abrirModalEditarVeiculo(veiculo);
-  });
-});
-
 // ===== FECHAR MODAL =====
 document.getElementById('btnCancelarVeiculo').addEventListener('click', () => {
   modalVeiculo.classList.add('oculto');
 });
 
-// ===== SALVAR (CADASTRAR OU EDITAR) =====
+// ===== SALVAR (CADASTRAR OU EDITAR + FOTO) =====
 formVeiculo.addEventListener('submit', async (evento) => {
   evento.preventDefault();
   esconderMensagem('mensagemModalVeiculo');
@@ -175,7 +174,7 @@ formVeiculo.addEventListener('submit', async (evento) => {
       veiculoId = resposta.id;
     }
 
-    // Se o usuário selecionou uma foto, envia agora (precisa do id do veículo)
+    // Se selecionou uma foto, envia agora (precisa do id do veículo)
     const arquivoFoto = document.getElementById('fotoVeiculo').files[0];
     if (arquivoFoto && veiculoId) {
       const formData = new FormData();
@@ -191,4 +190,17 @@ formVeiculo.addEventListener('submit', async (evento) => {
     btn.disabled = false;
     btn.textContent = 'Salvar';
   }
+});
+
+// ===== PRÉVIA DA FOTO AO SELECIONAR (antes de salvar) =====
+document.getElementById('fotoVeiculo').addEventListener('change', (evento) => {
+  const arquivo = evento.target.files[0];
+  if (!arquivo) return;
+
+  const leitor = new FileReader();
+  leitor.onload = (e) => {
+    previaFoto.src = e.target.result;
+    previaFoto.style.display = 'block';
+  };
+  leitor.readAsDataURL(arquivo);
 });

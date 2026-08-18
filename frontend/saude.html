@@ -1,44 +1,50 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GearUp - Saúde do Veículo</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/dashboard.css">
-  <link rel="stylesheet" href="css/tabela.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GearUp — Saúde do Veículo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app-tech.css">
 </head>
 <body>
 
-  <header class="topo">
-    <div class="topo-logo">🚗 GearUp</div>
-    <div class="topo-usuario">
-      <span id="nomeUsuarioTopo"></span>
-      <button id="btnSair">Sair</button>
-    </div>
-  </header>
+<div class="fundo-grade" aria-hidden="true"></div>
 
-  <div class="layout-veiculo">
-    <aside class="menu-lateral" id="menuLateral"></aside>
-
-    <main class="conteudo-veiculo">
-      <div class="cabecalho-pagina">
-        <div>
-          <h2>Saúde do Veículo</h2>
-          <p>Um índice de 0 a 100 baseado no estado geral do seu veículo</p>
-        </div>
-      </div>
-
-      <div class="card card-saude-principal" id="cardSaudePrincipal"></div>
-
-      <div id="gridCriterios" class="grid-criterios"></div>
-    </main>
+<header class="topo">
+  <a href="veiculos.html" class="nav-logo">
+    <span class="nav-logo-icone">◈</span>
+    GearUp
+  </a>
+  <div class="topo-usuario">
+    <span id="nomeUsuarioTopo"></span>
+    <button id="btnSair" class="btn-sair">Sair</button>
   </div>
+</header>
 
-  <script src="js/api.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/menu-lateral.js"></script>
-  <script src="js/saude.js"></script>
+<div class="layout-app">
+  <aside class="menu-lateral" id="menuLateral"></aside>
+
+  <main class="conteudo-app">
+    <div class="cabecalho-pagina">
+      <div>
+        <span class="etiqueta-tecnica">GU · SDE</span>
+        <h2>Saúde do veículo</h2>
+        <p>Um índice de 0 a 100 baseado no estado geral do seu veículo</p>
+      </div>
+    </div>
+
+    <div class="card-saude-principal" id="cardSaudePrincipal"></div>
+
+    <div id="gridCriterios" class="grid-criterios"></div>
+  </main>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/menu-lateral.js"></script>
+<script src="js/saude.js"></script>
 </body>
 </html>

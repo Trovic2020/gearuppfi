@@ -1,125 +1,134 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GearUp - Meus Veículos</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/layout.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GearUp — Meus Veículos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app-tech.css">
 </head>
 <body>
 
-  <header class="topo">
-    <div class="topo-logo">🚗 GearUp</div>
-    <div class="topo-usuario">
-      <a href="perfil.html" style="font-size: 14px; color: var(--azul-escuro); font-weight: 600;">Meu Perfil</a>
-      <span id="nomeUsuarioTopo"></span>
-      <button id="btnSair">Sair</button>
+<div class="fundo-grade" aria-hidden="true"></div>
+
+<header class="topo">
+  <a href="veiculos.html" class="nav-logo">
+    <span class="nav-logo-icone">◈</span>
+    GearUp
+  </a>
+  <div class="topo-usuario">
+    <a href="perfil.html" class="topo-link">Meu Perfil</a>
+    <span id="nomeUsuarioTopo"></span>
+    <button id="btnSair" class="btn-sair">Sair</button>
+  </div>
+</header>
+
+<div class="container-pagina">
+  <div class="cabecalho-pagina">
+    <div>
+      <span class="etiqueta-tecnica">GU · FROTA</span>
+      <h2>Meus Veículos</h2>
+      <p>Selecione um veículo para gerenciar ou cadastre um novo</p>
     </div>
+    <button class="btn btn-primario" id="btnNovoVeiculo">+ Novo veículo</button>
+  </div>
 
-  </header>
+  <div id="listaVeiculos" class="grid-veiculos"></div>
 
-  <div class="container-pagina">
-    <div class="cabecalho-pagina">
-      <div>
-        <h2>Meus Veículos</h2>
-        <p>Selecione um veículo para gerenciar ou cadastre um novo</p>
+  <div id="estadoVazio" class="estado-vazio oculto">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 17h14M6 17l1.5-5.5A2 2 0 0 1 9.4 10h5.2a2 2 0 0 1 1.9 1.5L18 17M7 17v2a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3M18 17v2a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="17" r="1.4"/><circle cx="16" cy="17" r="1.4"/></svg>
+    <p>Você ainda não cadastrou nenhum veículo.</p>
+    <button class="btn btn-primario" id="btnNovoVeiculoVazio">Cadastrar meu primeiro veículo</button>
+  </div>
+</div>
+
+<!-- ===== MODAL DE CADASTRO/EDIÇÃO ===== -->
+<div id="modalVeiculo" class="modal-fundo oculto">
+  <div class="modal-caixa">
+    <span class="etiqueta-tecnica">GU · VEÍCULO</span>
+    <h3 class="modal-titulo" id="tituloModalVeiculo">Novo veículo</h3>
+
+    <div id="mensagemModalVeiculo" class="mensagem mensagem-erro oculto"></div>
+
+    <form id="formVeiculo">
+      <input type="hidden" id="veiculoId">
+
+      <div class="linha-2-colunas">
+        <div class="campo-form">
+          <label for="marca">Marca *</label>
+          <input type="text" id="marca" required>
+        </div>
+        <div class="campo-form">
+          <label for="modelo">Modelo *</label>
+          <input type="text" id="modelo" required>
+        </div>
       </div>
-      <button class="btn btn-primario" id="btnNovoVeiculo">+ Novo Veículo</button>
-    </div>
 
-    <div id="listaVeiculos" class="grid-veiculos"></div>
-
-    <div id="estadoVazio" class="estado-vazio oculto">
-      <p>Você ainda não cadastrou nenhum veículo.</p>
-      <button class="btn btn-primario" id="btnNovoVeiculoVazio">Cadastrar meu primeiro veículo</button>
-    </div>
-  </div>
-
-  <!-- Modal de cadastro/edição de veículo -->
-  <div id="modalVeiculo" class="modal-fundo oculto">
-    <div class="modal-caixa">
-      <h3 class="modal-titulo" id="tituloModalVeiculo">Novo Veículo</h3>
-
-      <div id="mensagemModalVeiculo" class="mensagem mensagem-erro oculto"></div>
-
-      <form id="formVeiculo">
-        <input type="hidden" id="veiculoId">
-
-        <div class="linha-2-colunas">
-          <div class="campo-form">
-            <label for="marca">Marca *</label>
-            <input type="text" id="marca" required>
-          </div>
-          <div class="campo-form">
-            <label for="modelo">Modelo *</label>
-            <input type="text" id="modelo" required>
-          </div>
-        </div>
-
-        <div class="linha-2-colunas">
-          <div class="campo-form">
-            <label for="anoFabricacao">Ano fabricação</label>
-            <input type="number" id="anoFabricacao" min="1950" max="2100">
-          </div>
-          <div class="campo-form">
-            <label for="anoModelo">Ano modelo</label>
-            <input type="number" id="anoModelo" min="1950" max="2100">
-          </div>
-        </div>
-
-        <div class="linha-2-colunas">
-          <div class="campo-form">
-            <label for="cor">Cor</label>
-            <input type="text" id="cor">
-          </div>
-          <div class="campo-form">
-            <label for="placa">Placa *</label>
-            <input type="text" id="placa" required maxlength="10" style="text-transform: uppercase;">
-          </div>
-        </div>
-
-        <div class="linha-2-colunas">
-          <div class="campo-form">
-            <label for="quilometragemAtual">Quilometragem atual</label>
-            <input type="number" id="quilometragemAtual" min="0">
-          </div>
-          <div class="campo-form">
-            <label for="tipoCombustivel">Combustível *</label>
-            <select id="tipoCombustivel" required>
-              <option value="">Selecione</option>
-              <option value="Gasolina">Gasolina</option>
-              <option value="Etanol">Etanol</option>
-              <option value="Flex">Flex</option>
-              <option value="Diesel">Diesel</option>
-              <option value="GNV">GNV</option>
-              <option value="Elétrico">Elétrico</option>
-              <option value="Híbrido">Híbrido</option>
-            </select>
-          </div>
-        </div>
-
+      <div class="linha-2-colunas">
         <div class="campo-form">
-          <label for="dataAquisicao">Data de aquisição</label>
-          <input type="date" id="dataAquisicao">
+          <label for="anoFabricacao">Ano fabricação</label>
+          <input type="number" id="anoFabricacao" min="1950" max="2100">
         </div>
-
         <div class="campo-form">
-            <label for="fotoVeiculo">Foto do veículo</label>
-            <input type="file" id="fotoVeiculo" accept="image/jpeg,image/png,image/webp">
-            <img id="previaFoto" src="" alt="" style="display:none; margin-top: 10px; width: 100%; max-height: 160px; object-fit: cover; border-radius: 8px;">
+          <label for="anoModelo">Ano modelo</label>
+          <input type="number" id="anoModelo" min="1950" max="2100">
         </div>
+      </div>
 
-        <div class="modal-acoes">
-          <button type="button" class="btn btn-secundario" id="btnCancelarVeiculo">Cancelar</button>
-          <button type="submit" class="btn btn-primario" id="btnSalvarVeiculo">Salvar</button>
+      <div class="linha-2-colunas">
+        <div class="campo-form">
+          <label for="cor">Cor</label>
+          <input type="text" id="cor">
         </div>
-      </form>
-    </div>
+        <div class="campo-form">
+          <label for="placa">Placa *</label>
+          <input type="text" id="placa" required maxlength="10" style="text-transform: uppercase;">
+        </div>
+      </div>
+
+      <div class="linha-2-colunas">
+        <div class="campo-form">
+          <label for="quilometragemAtual">Quilometragem atual</label>
+          <input type="number" id="quilometragemAtual" min="0">
+        </div>
+        <div class="campo-form">
+          <label for="tipoCombustivel">Combustível *</label>
+          <select id="tipoCombustivel" required>
+            <option value="">Selecione</option>
+            <option value="Gasolina">Gasolina</option>
+            <option value="Etanol">Etanol</option>
+            <option value="Flex">Flex</option>
+            <option value="Diesel">Diesel</option>
+            <option value="GNV">GNV</option>
+            <option value="Elétrico">Elétrico</option>
+            <option value="Híbrido">Híbrido</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="campo-form">
+        <label for="dataAquisicao">Data de aquisição</label>
+        <input type="date" id="dataAquisicao">
+      </div>
+
+      <div class="campo-form">
+        <label for="fotoVeiculo">Foto do veículo</label>
+        <input type="file" id="fotoVeiculo" accept="image/jpeg,image/png,image/webp">
+        <img id="previaFoto" class="previa-foto" src="" alt="">
+      </div>
+
+      <div class="modal-acoes">
+        <button type="button" class="btn btn-secundario" id="btnCancelarVeiculo">Cancelar</button>
+        <button type="submit" class="btn btn-primario" id="btnSalvarVeiculo">Salvar</button>
+      </div>
+    </form>
   </div>
+</div>
 
-  <script src="js/api.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/veiculos.js"></script>
+<script src="js/api.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/veiculos.js"></script>
 </body>
 </html>
