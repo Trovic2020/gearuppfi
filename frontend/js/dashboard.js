@@ -11,12 +11,12 @@ const veiculo = veiculoSelecionado();
 
 // Paleta de cores fixa para os gráficos (categoria de gastos)
 const CORES_CATEGORIA = {
-  'Combustível': '#4A90D9',
-  'Manutenção': '#0C447C',
-  'Seguro': '#2E9E5B',
-  'Pneus': '#E0A32A',
-  'Documentação': '#8B5CF6',
-  'Outros': '#9CA3AF'
+  'Combustível': '#2563EB',
+  'Manutenção': '#7C3AED',
+  'Seguro': '#16A34A',
+  'Pneus': '#D97706',
+  'Documentação': '#DB2777',
+  'Outros': '#94A3B8'
 };
 
 async function carregarDashboard() {
@@ -78,7 +78,7 @@ function renderizarGraficoPizza(categorias) {
   let acumulado = 0;
   const fatias = categorias.map(c => {
     const percentual = (parseFloat(c.total) / total) * 100;
-    const cor = CORES_CATEGORIA[c.categoria] || '#9CA3AF';
+    const cor = CORES_CATEGORIA[c.categoria] || '#94A3B8';
     const inicio = acumulado;
     acumulado += percentual;
     return `${cor} ${inicio}% ${acumulado}%`;
@@ -90,7 +90,7 @@ function renderizarGraficoPizza(categorias) {
       <div class="legenda-pizza">
         ${categorias.map(c => `
           <div class="legenda-item">
-            <span class="legenda-cor" style="background-color: ${CORES_CATEGORIA[c.categoria] || '#9CA3AF'};"></span>
+            <span class="legenda-cor" style="background-color: ${CORES_CATEGORIA[c.categoria] || '#94A3B8'};"></span>
             ${c.categoria}
             <span class="valor-legenda">${formatarMoeda(c.total)}</span>
           </div>

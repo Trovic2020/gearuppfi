@@ -1,120 +1,122 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GearUp — Entrar</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/auth-tech.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GearUp — Entrar</title>
+  <link rel="icon" type="image/png" href="img/logo.png">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/auth-tech.css">
 </head>
+
 <body>
 
-<div class="fundo-grade" aria-hidden="true"></div>
+  <div class="fundo-grade" aria-hidden="true"></div>
 
-<div class="tela-split">
+  <div class="tela-split">
 
-  <!-- ===== PAINEL ESQUERDO — TÉCNICO / MARCA ===== -->
-  <aside class="painel-lateral">
-    <a href="index.html" class="nav-logo">
-      <span class="nav-logo-icone">◈</span>
-      GearUp
-    </a>
+    <!-- ===== PAINEL ESQUERDO — TÉCNICO / MARCA ===== -->
+    <aside class="painel-lateral">
+      <a href="index.html" class="nav-logo">
+        <img class="nav-logo-icone" src="img/logo.png" alt="">
+        GearUp
+      </a>
 
-    <div class="painel-lateral-conteudo">
-      <span class="etiqueta-tecnica">ACESSO AO PAINEL</span>
-      <h1>Seus dados,<br>onde você parou.</h1>
-      <p class="painel-lateral-sub">
-        Entre e continue de onde deixou — manutenções, gastos, alertas
-        e a saúde de cada veículo, sempre atualizados.
-      </p>
+      <div class="painel-lateral-conteudo">
+        <span class="etiqueta-tecnica">ACESSO AO PAINEL</span>
+        <h1>Seus dados,<br>onde você parou.</h1>
+        <p class="painel-lateral-sub">
+          Entre e continue de onde deixou — manutenções, gastos, alertas
+          e a saúde de cada veículo, sempre atualizados.
+        </p>
 
-      <div class="mini-medidor-wrap">
-        <div class="mini-medidor-container">
-          <svg class="mini-medidor-svg" viewBox="0 0 220 220">
-            <defs>
-              <linearGradient id="gradienteMiniMedidor" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#4A90D9"/>
-                <stop offset="100%" stop-color="#24E0C0"/>
-              </linearGradient>
-            </defs>
-            <circle class="mini-medidor-trilho" cx="110" cy="110" r="92"/>
-            <circle class="mini-medidor-progresso" cx="110" cy="110" r="92"/>
-          </svg>
-          <div class="mini-medidor-centro">
-            <span class="mini-medidor-numero">94</span>
-            <span class="mini-medidor-legenda">SAÚDE DO<br>VEÍCULO</span>
+        <div class="mini-medidor-wrap">
+          <div class="mini-medidor-container">
+            <svg class="mini-medidor-svg" viewBox="0 0 220 220">
+              <defs>
+                <linearGradient id="gradienteMiniMedidor" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#4A90D9" />
+                  <stop offset="100%" stop-color="#24E0C0" />
+                </linearGradient>
+              </defs>
+              <circle class="mini-medidor-trilho" cx="110" cy="110" r="92" />
+              <circle class="mini-medidor-progresso" cx="110" cy="110" r="92" />
+            </svg>
+            <div class="mini-medidor-centro">
+              <span class="mini-medidor-numero">94</span>
+              <span class="mini-medidor-legenda">SAÚDE DO<br>VEÍCULO</span>
+            </div>
           </div>
         </div>
+
+        <ul class="lista-tecnica">
+          <li><span class="check">✓</span> Sessão autenticada por token JWT</li>
+          <li><span class="check">✓</span> Senha nunca trafega em texto puro</li>
+          <li><span class="check">✓</span> Acesso restrito só à sua conta</li>
+        </ul>
       </div>
 
-      <ul class="lista-tecnica">
-        <li><span class="check">✓</span> Sessão autenticada por token JWT</li>
-        <li><span class="check">✓</span> Senha nunca trafega em texto puro</li>
-        <li><span class="check">✓</span> Acesso restrito só à sua conta</li>
-      </ul>
-    </div>
-
-    <div class="ticker-lateral" aria-hidden="true">
-      <div class="ticker-lateral-trilho">
-        <span>MANUTENÇÕES</span><span class="ticker-ponto">·</span>
-        <span>ABASTECIMENTOS</span><span class="ticker-ponto">·</span>
-        <span>PNEUS</span><span class="ticker-ponto">·</span>
-        <span>SEGURO</span><span class="ticker-ponto">·</span>
-        <span>DOCUMENTOS</span><span class="ticker-ponto">·</span>
-        <span>FINANCEIRO</span><span class="ticker-ponto">·</span>
-        <span>ALERTAS</span><span class="ticker-ponto">·</span>
-        <span>MANUTENÇÕES</span><span class="ticker-ponto">·</span>
-        <span>ABASTECIMENTOS</span><span class="ticker-ponto">·</span>
-        <span>PNEUS</span><span class="ticker-ponto">·</span>
-        <span>SEGURO</span><span class="ticker-ponto">·</span>
-        <span>DOCUMENTOS</span><span class="ticker-ponto">·</span>
-        <span>FINANCEIRO</span><span class="ticker-ponto">·</span>
-        <span>ALERTAS</span><span class="ticker-ponto">·</span>
+      <div class="ticker-lateral" aria-hidden="true">
+        <div class="ticker-lateral-trilho">
+          <span>MANUTENÇÕES</span><span class="ticker-ponto">·</span>
+          <span>ABASTECIMENTOS</span><span class="ticker-ponto">·</span>
+          <span>PNEUS</span><span class="ticker-ponto">·</span>
+          <span>SEGURO</span><span class="ticker-ponto">·</span>
+          <span>DOCUMENTOS</span><span class="ticker-ponto">·</span>
+          <span>FINANCEIRO</span><span class="ticker-ponto">·</span>
+          <span>ALERTAS</span><span class="ticker-ponto">·</span>
+          <span>MANUTENÇÕES</span><span class="ticker-ponto">·</span>
+          <span>ABASTECIMENTOS</span><span class="ticker-ponto">·</span>
+          <span>PNEUS</span><span class="ticker-ponto">·</span>
+          <span>SEGURO</span><span class="ticker-ponto">·</span>
+          <span>DOCUMENTOS</span><span class="ticker-ponto">·</span>
+          <span>FINANCEIRO</span><span class="ticker-ponto">·</span>
+          <span>ALERTAS</span><span class="ticker-ponto">·</span>
+        </div>
       </div>
-    </div>
-  </aside>
+    </aside>
 
-  <!-- ===== PAINEL DIREITO — FORMULÁRIO ===== -->
-  <main class="painel-form">
-    <div class="cartao-form">
-      <span class="etiqueta-tecnica">GU · LOGIN</span>
-      <h2>Entrar</h2>
-      <p class="cartao-form-sub">Acesse seu painel de controle.</p>
+    <!-- ===== PAINEL DIREITO — FORMULÁRIO ===== -->
+    <main class="painel-form">
+      <div class="cartao-form">
+        <span class="etiqueta-tecnica">GU · LOGIN</span>
+        <h2>Entrar</h2>
+        <p class="cartao-form-sub">Acesse seu painel de controle.</p>
 
-      <div id="mensagemLogin" class="mensagem mensagem-erro oculto"></div>
+        <div id="mensagemLogin" class="mensagem mensagem-erro oculto"></div>
 
-      <form id="formLogin">
-        <div class="campo-tech">
-          <label for="email">E-mail</label>
-          <input type="email" id="email" name="email" placeholder="seuemail@exemplo.com" required>
-        </div>
+        <form id="formLogin">
+          <div class="campo-tech">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" placeholder="seuemail@exemplo.com" required>
+          </div>
 
-        <div class="campo-tech">
-          <label for="senha">Senha</label>
-          <input type="password" id="senha" name="senha" placeholder="Sua senha" required>
-        </div>
+          <div class="campo-tech">
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" name="senha" placeholder="Sua senha" required>
+          </div>
 
-        <div class="esqueci-senha-wrap">
-          <a href="esqueci-senha.html" class="link-esqueci">Esqueci minha senha</a>
-        </div>
+          <div class="esqueci-senha-wrap">
+            <a href="esqueci-senha.html" class="link-esqueci">Esqueci minha senha</a>
+          </div>
 
-        <button type="submit" class="btn-cta btn-cta-primario btn-full" id="btnLogin">Entrar →</button>
+          <button type="submit" class="btn-cta btn-cta-primario btn-full" id="btnLogin">Entrar →</button>
 
-        <p class="link-form">
-          Ainda não tem conta? <a href="cadastro.html">Criar conta</a>
-        </p>
-      </form>
-    </div>
+          <p class="link-form">
+            Ainda não tem conta? <a href="cadastro.html">Criar conta</a>
+          </p>
+        </form>
+      </div>
 
-    <a href="index.html" class="link-voltar">← Voltar para a home</a>
-  </main>
+      <a href="index.html" class="link-voltar">← Voltar para a home</a>
+    </main>
 
-</div>
+  </div>
 
-<script src="js/api.js"></script>
-<script src="js/utils.js"></script>
-<script src="js/auth.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
 </body>
+
 </html>

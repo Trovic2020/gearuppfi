@@ -10,9 +10,9 @@ document.getElementById('btnSair').addEventListener('click', logout);
 const veiculo = veiculoSelecionado();
 
 function corPorPontuacao(pontuacao) {
-  if (pontuacao >= 90) return '#2E9E5B'; // verde
-  if (pontuacao >= 60) return '#E0A32A'; // amarelo
-  return '#D64545'; // vermelho
+  if (pontuacao >= 90) return '#16A34A'; // verde
+  if (pontuacao >= 60) return '#D97706'; // amarelo
+  return '#DC2626'; // vermelho
 }
 
 function classePorPontuacao(pontuacao) {
@@ -29,7 +29,7 @@ async function carregarSaude() {
 
     // ===== CARD PRINCIPAL COM O MEDIDOR CIRCULAR =====
     document.getElementById('cardSaudePrincipal').innerHTML = `
-      <div class="medidor-saude" style="background: conic-gradient(${cor} ${dados.pontuacao}%, var(--cinza-claro) ${dados.pontuacao}%);">
+      <div class="medidor-saude" style="background: conic-gradient(${cor} ${dados.pontuacao}%, var(--bg-painel-2) ${dados.pontuacao}%);">
         <div class="medidor-saude-interno">
           <span class="medidor-saude-numero">${dados.pontuacao}</span>
           <span class="medidor-saude-legenda">de 100</span>
@@ -49,7 +49,7 @@ async function carregarSaude() {
           <span class="card-criterio-pontos ${c.pontos === c.max ? 'total' : 'parcial'}">${c.pontos}/${c.max} pts</span>
         </div>
         <div class="barra-progresso-fundo">
-          <div class="barra-progresso-preenchida" style="width: ${(c.pontos / c.max) * 100}%; background-color: ${c.pontos === c.max ? '#2E9E5B' : '#D64545'};"></div>
+          <div class="barra-progresso-preenchida" style="width: ${(c.pontos / c.max) * 100}%; background-color: ${c.pontos === c.max ? '#16A34A' : '#DC2626'};"></div>
         </div>
         <div class="card-criterio-detalhe">${c.detalhe}</div>
       </div>

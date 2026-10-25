@@ -1,61 +1,62 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GearUp - Recuperar Senha</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/auth.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GearUp — Recuperar senha</title>
+<link rel="icon" type="image/png" href="img/logo.png">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/auth-tech.css">
 </head>
 <body>
 
-  <div class="tela-auth">
-    <div class="caixa-auth">
-      <div class="logo-auth">
-        <h1>🚗 GearUp</h1>
-        <p>Recuperar senha</p>
+<div class="fundo-grade" aria-hidden="true"></div>
+
+<main class="painel-form">
+  <div class="cartao-form">
+    <span class="etiqueta-tecnica">GU · RECUPERAR SENHA</span>
+    <h2>Recuperar senha</h2>
+
+    <form id="formEsqueciSenha">
+      <div id="mensagemEsqueci" class="mensagem mensagem-erro oculto"></div>
+
+      <p class="cartao-form-sub">
+        Digite seu e-mail cadastrado. Você receberá um token para redefinir sua senha.
+      </p>
+
+      <div class="campo-tech">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" placeholder="seuemail@exemplo.com" required>
       </div>
 
-      <form class="form-auth" id="formEsqueciSenha">
-        <div id="mensagemEsqueci" class="mensagem mensagem-erro oculto"></div>
+      <button type="submit" class="btn-cta btn-cta-primario btn-full" id="btnEnviar">Enviar</button>
 
-        <p style="font-size: 13px; color: var(--cinza-texto); margin-bottom: 20px;">
-          Digite seu e-mail cadastrado. Você receberá um token para redefinir sua senha.
-        </p>
+      <p class="link-form">
+        <a href="login.html">← Voltar ao login</a>
+      </p>
+    </form>
 
-        <div class="campo-form">
-          <label for="email">E-mail</label>
-          <input type="email" id="email" required>
-        </div>
+    <!-- Formulário de redefinição, aparece depois de solicitar -->
+    <form class="oculto" id="formRedefinir">
+      <div id="mensagemRedefinir" class="mensagem mensagem-erro oculto"></div>
 
-        <button type="submit" class="btn btn-primario btn-full" id="btnEnviar">Enviar</button>
+      <div class="campo-tech">
+        <label for="token">Token recebido</label>
+        <input type="text" id="token" required>
+      </div>
 
-        <p class="link-auth">
-          <a href="login.html">← Voltar ao login</a>
-        </p>
-      </form>
+      <div class="campo-tech">
+        <label for="novaSenha">Nova senha</label>
+        <input type="password" id="novaSenha" required minlength="6">
+      </div>
 
-      <!-- Formulário de redefinição, aparece depois de solicitar -->
-      <form class="form-auth oculto" id="formRedefinir">
-        <div id="mensagemRedefinir" class="mensagem mensagem-erro oculto"></div>
-
-        <div class="campo-form">
-          <label for="token">Token recebido</label>
-          <input type="text" id="token" required>
-        </div>
-
-        <div class="campo-form">
-          <label for="novaSenha">Nova senha</label>
-          <input type="password" id="novaSenha" required minlength="6">
-        </div>
-
-        <button type="submit" class="btn btn-primario btn-full" id="btnRedefinir">Redefinir senha</button>
-      </form>
-    </div>
+      <button type="submit" class="btn-cta btn-cta-primario btn-full" id="btnRedefinir">Redefinir senha</button>
+    </form>
   </div>
+</main>
 
-  <script src="js/api.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/esqueci-senha.js"></script>
+<script src="js/api.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/esqueci-senha.js"></script>
 </body>
 </html>
