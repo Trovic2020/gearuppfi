@@ -116,8 +116,8 @@ async function editar(req, res) {
     );
 
     await pool.query(
-      `UPDATE gastos SET valor = ?, data_gasto = ? WHERE origem_tipo = 'abastecimento' AND origem_id = ?`,
-      [valor_total, data_abastecimento, id]
+      `UPDATE gastos SET descricao = ?, valor = ?, data_gasto = ? WHERE origem_tipo = 'abastecimento' AND origem_id = ?`,
+      [`Abastecimento - ${tipo_combustivel}`, valor_total, data_abastecimento, id]
     );
 
     return res.json({ mensagem: 'Abastecimento atualizado com sucesso!' });

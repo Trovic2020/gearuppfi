@@ -150,12 +150,23 @@ async function editar(req, res) {
       [tipo_servico, data_servico, quilometragem, oficina_id || null, valor || 0, observacoes || null, id, veiculoId]
     );
 
-    // Atualiza o gasto vinculado, se existir
-    await pool.query(
-      `UPDATE gastos SET descricao = ?, valor = ?, data_gasto = ? 
-       WHERE origem_tipo = 'manutencao' AND origem_id = ?`,
-      [tipo_servico, valor || 0, data_servico, id]
-    );
+    // Mantém o gasto vinculado em sincronia: atualiza, cria (se agora tem valor) ou remove (se zerou)
+    if (valor && valor > 0) {
+      const [atualizado] = await pool.query(
+        `UPDATE gastos SET descricao = ?, valor = ?, data_gasto = ?
+         WHERE origem_tipo = 'manutencao' AND origem_id = ?`,
+        [tipo_servico, valor, data_servico, id]
+      );
+      if (atualizado.affectedRows === 0) {
+        await pool.query(
+          `INSERT INTO gastos (veiculo_id, categoria, descricao, valor, data_gasto, origem_tipo, origem_id)
+           VALUES (?, 'Manutenção', ?, ?, ?, 'manutencao', ?)`,
+          [veiculoId, tipo_servico, valor, data_servico, id]
+        );
+      }
+    } else {
+      await pool.query(`DELETE FROM gastos WHERE origem_tipo = 'manutencao' AND origem_id = ?`, [id]);
+    }
 
     return res.json({ mensagem: 'Manutenção atualizada com sucesso!' });
   } catch (erro) {

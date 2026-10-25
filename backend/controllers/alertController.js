@@ -8,6 +8,39 @@ async function veiculoPertenceAoUsuario(veiculoId, usuarioId) {
   return veiculos.length > 0 ? veiculos[0] : null;
 }
 
+// Alerta crítico = situação já estourou (pneu no fim da vida útil, seguro/documento vencido)
+function ehCritico(titulo) {
+  return titulo.includes('precisa ser trocado') || titulo.includes('vencido');
+}
+
+// ===== CRIA OU ATUALIZA O ALERTA DE UMA ORIGEM (pneu, seguro ou documento) =====
+// Se o usuário já resolveu/ignorou o alerta dessa origem, não recria — só cria de novo
+// quando a situação piora (ex: "vence em 10 dias" virou "vencido").
+async function salvarAlerta(veiculoId, tipoAlerta, origemTipo, origemId, titulo, descricao, dataReferencia) {
+  const [existentes] = await pool.query(
+    `SELECT id, status, titulo FROM alertas
+     WHERE veiculo_id = ? AND origem_tipo = ? AND origem_id = ?
+     ORDER BY id DESC LIMIT 1`,
+    [veiculoId, origemTipo, origemId]
+  );
+  const ultimo = existentes[0];
+
+  if (ultimo && ultimo.status === 'Pendente') {
+    await pool.query('UPDATE alertas SET titulo = ?, descricao = ? WHERE id = ?', [titulo, descricao, ultimo.id]);
+    return;
+  }
+
+  if (ultimo && !(ehCritico(titulo) && !ehCritico(ultimo.titulo))) {
+    return;
+  }
+
+  await pool.query(
+    `INSERT INTO alertas (veiculo_id, tipo_alerta, titulo, descricao, data_referencia, origem_tipo, origem_id)
+     VALUES (?, ?, ?, ?, COALESCE(?, CURDATE()), ?, ?)`,
+    [veiculoId, tipoAlerta, titulo, descricao, dataReferencia, origemTipo, origemId]
+  );
+}
+
 // ===== GERA/ATUALIZA ALERTAS DE UM VEÍCULO (chamada interna, reutilizável) =====
 async function gerarAlertasDoVeiculo(veiculoId, quilometragemAtual) {
   // --- PNEUS ---
@@ -25,25 +58,7 @@ async function gerarAlertasDoVeiculo(veiculoId, quilometragemAtual) {
         ? `Pneu ${pneu.marca} (${pneu.posicao}) precisa ser trocado`
         : `Pneu ${pneu.marca} (${pneu.posicao}) está próximo do fim da vida útil`;
 
-      // Verifica se já existe um alerta pendente para esse pneu, pra não duplicar
-      const [existente] = await pool.query(
-        `SELECT id FROM alertas WHERE veiculo_id = ? AND origem_tipo = 'pneu' AND origem_id = ? AND status = 'Pendente'`,
-        [veiculoId, pneu.id]
-      );
-
-      if (existente.length === 0) {
-        await pool.query(
-          `INSERT INTO alertas (veiculo_id, tipo_alerta, titulo, descricao, data_referencia, origem_tipo, origem_id)
-           VALUES (?, 'Pneus', ?, ?, CURDATE(), 'pneu', ?)`,
-          [veiculoId, titulo, `${percentual.toFixed(1)}% da vida útil consumida.`, pneu.id]
-        );
-      } else {
-        // Atualiza a descrição do alerta existente
-        await pool.query(
-          'UPDATE alertas SET titulo = ?, descricao = ? WHERE id = ?',
-          [titulo, `${percentual.toFixed(1)}% da vida útil consumida.`, existente[0].id]
-        );
-      }
+      await salvarAlerta(veiculoId, 'Pneus', 'pneu', pneu.id, titulo, `${percentual.toFixed(1)}% da vida útil consumida.`, null);
     }
   }
 
@@ -65,20 +80,7 @@ async function gerarAlertasDoVeiculo(veiculoId, quilometragemAtual) {
         ? `Seguro ${seguro.seguradora} está vencido`
         : `Seguro ${seguro.seguradora} vence em ${diasRestantes} dia(s)`;
 
-      const [existente] = await pool.query(
-        `SELECT id FROM alertas WHERE veiculo_id = ? AND origem_tipo = 'seguro' AND origem_id = ? AND status = 'Pendente'`,
-        [veiculoId, seguro.id]
-      );
-
-      if (existente.length === 0) {
-        await pool.query(
-          `INSERT INTO alertas (veiculo_id, tipo_alerta, titulo, descricao, data_referencia, origem_tipo, origem_id)
-           VALUES (?, 'Seguro', ?, ?, ?, 'seguro', ?)`,
-          [veiculoId, titulo, `Vencimento em ${seguro.data_vencimento}`, seguro.data_vencimento, seguro.id]
-        );
-      } else {
-        await pool.query('UPDATE alertas SET titulo = ? WHERE id = ?', [titulo, existente[0].id]);
-      }
+      await salvarAlerta(veiculoId, 'Seguro', 'seguro', seguro.id, titulo, `Vencimento em ${seguro.data_vencimento}`, seguro.data_vencimento);
     }
   }
 
@@ -100,20 +102,7 @@ async function gerarAlertasDoVeiculo(veiculoId, quilometragemAtual) {
         ? `Documento ${doc.tipo_documento} está vencido`
         : `Documento ${doc.tipo_documento} vence em ${diasRestantes} dia(s)`;
 
-      const [existente] = await pool.query(
-        `SELECT id FROM alertas WHERE veiculo_id = ? AND origem_tipo = 'documento' AND origem_id = ? AND status = 'Pendente'`,
-        [veiculoId, doc.id]
-      );
-
-      if (existente.length === 0) {
-        await pool.query(
-          `INSERT INTO alertas (veiculo_id, tipo_alerta, titulo, descricao, data_referencia, origem_tipo, origem_id)
-           VALUES (?, 'Documento', ?, ?, ?, 'documento', ?)`,
-          [veiculoId, titulo, `Vencimento em ${doc.data_vencimento}`, doc.data_vencimento, doc.id]
-        );
-      } else {
-        await pool.query('UPDATE alertas SET titulo = ? WHERE id = ?', [titulo, existente[0].id]);
-      }
+      await salvarAlerta(veiculoId, 'Documento', 'documento', doc.id, titulo, `Vencimento em ${doc.data_vencimento}`, doc.data_vencimento);
     }
   }
 }

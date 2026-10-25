@@ -103,6 +103,12 @@ async function excluir(req, res) {
 
     await pool.query('DELETE FROM documentos WHERE id = ? AND veiculo_id = ?', [id, veiculoId]);
 
+    // Documento removido não deixa alerta pendente para trás
+    await pool.query(
+      `DELETE FROM alertas WHERE origem_tipo = 'documento' AND origem_id = ? AND status = 'Pendente'`,
+      [id]
+    );
+
     return res.json({ mensagem: 'Documento removido com sucesso!' });
   } catch (erro) {
     console.error(erro);

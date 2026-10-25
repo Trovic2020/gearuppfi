@@ -48,7 +48,7 @@ formRedefinir.addEventListener('submit', async (evento) => {
   try {
     await AuthAPI.redefinirSenha({ token, novaSenha });
     alert('Senha redefinida com sucesso! Faça login com a nova senha.');
-    window.location.href = 'index.html';
+    window.location.href = 'login.html';
   } catch (erro) {
     mostrarMensagem('mensagemRedefinir', erro.message, 'erro');
   } finally {

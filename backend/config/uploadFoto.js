@@ -1,5 +1,6 @@
 const multer = require('multer');
 const path = require('path');
+const crypto = require('crypto');
 const fs = require('fs');
 
 const pastaDestino = path.join(__dirname, '..', 'uploads', 'veiculos');
@@ -13,7 +14,7 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     const extensao = path.extname(file.originalname);
-    const nomeUnico = `veiculo-${req.params.id}-${Date.now()}${extensao}`;
+    const nomeUnico = `veiculo-${crypto.randomBytes(16).toString('hex')}${extensao.toLowerCase()}`;
     cb(null, nomeUnico);
   }
 });

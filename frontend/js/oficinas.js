@@ -78,7 +78,20 @@ async function excluirItem(id) {
     await OficinasAPI.excluir(id);
     carregarLista();
   } catch (erro) {
-    // Aqui pode vir o erro 409 (oficina vinculada a manutenções), tratado pelo backend
+    // 409: oficina vinculada a manutenções. Confirmando, exclui mesmo assim
+    // (as manutenções continuam existindo, só ficam sem oficina)
+    if (erro.status === 409) {
+      if (!confirm(`${erro.message}
+
+Excluir mesmo assim? As manutenções continuam salvas, mas ficam sem oficina.`)) return;
+      try {
+        await OficinasAPI.excluir(id, true);
+        carregarLista();
+      } catch (erroForcado) {
+        alert(erroForcado.message);
+      }
+      return;
+    }
     alert(erro.message);
   }
 }

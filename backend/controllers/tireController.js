@@ -133,6 +133,12 @@ async function excluir(req, res) {
 
     await pool.query('UPDATE pneus SET ativo = FALSE WHERE id = ? AND veiculo_id = ?', [id, veiculoId]);
 
+    // Pneu removido não deixa alerta pendente para trás
+    await pool.query(
+      `DELETE FROM alertas WHERE origem_tipo = 'pneu' AND origem_id = ? AND status = 'Pendente'`,
+      [id]
+    );
+
     return res.json({ mensagem: 'Pneu removido com sucesso!' });
   } catch (erro) {
     console.error(erro);

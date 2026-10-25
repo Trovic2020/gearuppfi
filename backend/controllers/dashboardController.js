@@ -77,9 +77,13 @@ async function resumo(req, res) {
       [veiculoId]
     );
 
+    // Os 12 abastecimentos mais recentes, em ordem cronológica para o gráfico
     const [consumoAbastecimentos] = await pool.query(
-      `SELECT data_abastecimento, litros, valor_total, quilometragem 
-       FROM abastecimentos WHERE veiculo_id = ? ORDER BY data_abastecimento ASC LIMIT 12`,
+      `SELECT * FROM (
+         SELECT data_abastecimento, litros, valor_total, quilometragem
+         FROM abastecimentos WHERE veiculo_id = ? ORDER BY data_abastecimento DESC, quilometragem DESC LIMIT 12
+       ) AS recentes
+       ORDER BY data_abastecimento ASC, quilometragem ASC`,
       [veiculoId]
     );
 

@@ -117,10 +117,22 @@ async function editar(req, res) {
       [seguradora, numero_apolice || null, data_contratacao, data_vencimento, valor || null, arquivo_pdf || null, id, veiculoId]
     );
 
-    await pool.query(
-      `UPDATE gastos SET valor = ? WHERE origem_tipo = 'seguro' AND origem_id = ?`,
-      [valor || 0, id]
-    );
+    // Mantém o gasto vinculado em sincronia: atualiza, cria (se agora tem valor) ou remove (se zerou)
+    if (valor && valor > 0) {
+      const [atualizado] = await pool.query(
+        `UPDATE gastos SET descricao = ?, valor = ?, data_gasto = ? WHERE origem_tipo = 'seguro' AND origem_id = ?`,
+        [`Seguro - ${seguradora}`, valor, data_contratacao, id]
+      );
+      if (atualizado.affectedRows === 0) {
+        await pool.query(
+          `INSERT INTO gastos (veiculo_id, categoria, descricao, valor, data_gasto, origem_tipo, origem_id)
+           VALUES (?, 'Seguro', ?, ?, ?, 'seguro', ?)`,
+          [veiculoId, `Seguro - ${seguradora}`, valor, data_contratacao, id]
+        );
+      }
+    } else {
+      await pool.query(`DELETE FROM gastos WHERE origem_tipo = 'seguro' AND origem_id = ?`, [id]);
+    }
 
     return res.json({ mensagem: 'Seguro atualizado com sucesso!' });
   } catch (erro) {
@@ -145,6 +157,13 @@ async function excluir(req, res) {
     }
 
     await pool.query('UPDATE seguros SET ativo = FALSE WHERE id = ? AND veiculo_id = ?', [id, veiculoId]);
+
+    // Seguro removido não conta mais nos gastos nem deixa alerta pendente para trás
+    await pool.query(`DELETE FROM gastos WHERE origem_tipo = 'seguro' AND origem_id = ?`, [id]);
+    await pool.query(
+      `DELETE FROM alertas WHERE origem_tipo = 'seguro' AND origem_id = ? AND status = 'Pendente'`,
+      [id]
+    );
 
     return res.json({ mensagem: 'Seguro removido com sucesso!' });
   } catch (erro) {

@@ -105,10 +105,12 @@ async function excluir(req, res) {
       [id]
     );
 
-    if (vinculadas[0].total > 0) {
-      // Não bloqueia a exclusão, mas desvincula as manutenções antigas (FK já tem ON DELETE SET NULL)
+    // Com manutenções vinculadas, pede confirmação antes. Confirmado (?forcar=true), exclui:
+    // a FK tem ON DELETE SET NULL, então as manutenções ficam sem oficina, mas não somem
+    if (vinculadas[0].total > 0 && req.query.forcar !== 'true') {
       return res.status(409).json({
-        erro: `Esta oficina está vinculada a ${vinculadas[0].total} manutenção(ões). Excluir mesmo assim vai desvincular esses registros. Confirme enviando ?forcar=true na URL.`
+        erro: `Esta oficina está vinculada a ${vinculadas[0].total} manutenção(ões).`,
+        manutencoes_vinculadas: vinculadas[0].total
       });
     }
 

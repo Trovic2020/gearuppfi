@@ -1,6 +1,7 @@
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const crypto = require('crypto');
 
 // Garante que a pasta uploads/documentos existe
 const pastaDestino = path.join(__dirname, '..', 'uploads', 'documentos');
@@ -13,9 +14,10 @@ const storage = multer.diskStorage({
     cb(null, pastaDestino);
   },
   filename: (req, file, cb) => {
-    // Nome único: timestamp + nome original (sem espaços/caracteres estranhos)
-    const nomeSanitizado = file.originalname.replace(/[^a-zA-Z0-9.\-_]/g, '_');
-    const nomeUnico = `${Date.now()}-${nomeSanitizado}`;
+    // Nome aleatório e impossível de adivinhar: a pasta /uploads é pública, então o link do
+    // arquivo é a única "senha" dele. O nome original fica salvo no banco (nome_arquivo).
+    const extensao = path.extname(file.originalname).toLowerCase();
+    const nomeUnico = `${crypto.randomBytes(16).toString('hex')}${extensao}`;
     cb(null, nomeUnico);
   }
 });

@@ -46,7 +46,9 @@ async function apiRequest(endpoint, metodo = 'GET', dados = null, comArquivo = f
   const json = await resposta.json();
 
   if (!resposta.ok) {
-    throw new Error(json.erro || 'Erro ao processar a requisição.');
+    const erro = new Error(json.erro || 'Erro ao processar a requisição.');
+    erro.status = resposta.status;
+    throw erro;
   }
 
   return json;
@@ -119,7 +121,7 @@ const OficinasAPI = {
   listar: () => apiRequest('/oficinas'),
   cadastrar: (dados) => apiRequest('/oficinas', 'POST', dados),
   editar: (id, dados) => apiRequest(`/oficinas/${id}`, 'PUT', dados),
-  excluir: (id) => apiRequest(`/oficinas/${id}`, 'DELETE')
+  excluir: (id, forcar = false) => apiRequest(`/oficinas/${id}${forcar ? '?forcar=true' : ''}`, 'DELETE')
 };
 
 // ===== MÓDULO: GASTOS =====
