@@ -1,6 +1,7 @@
 const pool = require('../config/database');
 
 // ===== LISTAR OFICINAS DO USUÁRIO =====
+// Retorna as oficinas do usuário logado em ordem alfabética
 async function listar(req, res) {
   try {
     const [oficinas] = await pool.query(
@@ -15,6 +16,7 @@ async function listar(req, res) {
 }
 
 // ===== BUSCAR UMA OFICINA =====
+// Retorna uma oficina, desde que pertença ao usuário logado
 async function buscarPorId(req, res) {
   try {
     const { id } = req.params;
@@ -33,6 +35,7 @@ async function buscarPorId(req, res) {
 }
 
 // ===== CADASTRAR OFICINA =====
+// Cria uma oficina. Só o nome é obrigatório
 async function cadastrar(req, res) {
   try {
     const { nome, telefone, endereco, cidade, observacoes } = req.body;
@@ -57,6 +60,7 @@ async function cadastrar(req, res) {
 }
 
 // ===== EDITAR OFICINA =====
+// Atualiza os dados de uma oficina do usuário
 async function editar(req, res) {
   try {
     const { id } = req.params;
@@ -87,6 +91,8 @@ async function editar(req, res) {
 }
 
 // ===== EXCLUIR OFICINA =====
+// Se a oficina tiver manutenções vinculadas, responde 409 pedindo confirmação.
+// Com ?forcar=true, exclui mesmo assim (as manutenções ficam sem oficina).
 async function excluir(req, res) {
   try {
     const { id } = req.params;

@@ -1,6 +1,7 @@
 const pool = require('../config/database');
 const { gerarAlertasDoVeiculo } = require('./alertController');
 
+// Busca o veículo, desde que pertença ao usuário logado. Retorna null se não pertencer
 async function buscarVeiculoDoUsuario(veiculoId, usuarioId) {
   const [veiculos] = await pool.query(
     'SELECT * FROM veiculos WHERE id = ? AND usuario_id = ?',
@@ -9,6 +10,9 @@ async function buscarVeiculoDoUsuario(veiculoId, usuarioId) {
   return veiculos.length > 0 ? veiculos[0] : null;
 }
 
+// ===== RESUMO DO DASHBOARD =====
+// Monta os dados do painel: indicadores (gasto do mês e do ano, manutenções, consumo médio,
+// alertas pendentes) e os dados dos gráficos. Atualiza os alertas antes de contar.
 async function resumo(req, res) {
   try {
     const { veiculoId } = req.params;

@@ -2,6 +2,7 @@ const formEsqueciSenha = document.getElementById('formEsqueciSenha');
 const formRedefinir = document.getElementById('formRedefinir');
 
 // ===== SOLICITAR TOKEN =====
+// Pede o token de recuperação e troca para o formulário de nova senha
 formEsqueciSenha.addEventListener('submit', async (evento) => {
   evento.preventDefault();
   esconderMensagem('mensagemEsqueci');
@@ -34,6 +35,7 @@ formEsqueciSenha.addEventListener('submit', async (evento) => {
 });
 
 // ===== REDEFINIR SENHA COM TOKEN =====
+// Envia o token e a nova senha; se der certo, volta para o login
 formRedefinir.addEventListener('submit', async (evento) => {
   evento.preventDefault();
   esconderMensagem('mensagemRedefinir');

@@ -9,18 +9,21 @@ document.getElementById('btnSair').addEventListener('click', logout);
 
 const veiculo = veiculoSelecionado();
 
+// Cor do medidor conforme a pontuação: verde (90+), amarelo (60+) ou vermelho
 function corPorPontuacao(pontuacao) {
   if (pontuacao >= 90) return '#16A34A'; // verde
   if (pontuacao >= 60) return '#D97706'; // amarelo
   return '#DC2626'; // vermelho
 }
 
+// Classe CSS da classificação conforme a pontuação (mesmas faixas da cor)
 function classePorPontuacao(pontuacao) {
   if (pontuacao >= 90) return 'excelente';
   if (pontuacao >= 60) return 'atencao';
   return 'necessita';
 }
 
+// Busca a pontuação na API e monta o medidor circular e os cards de cada critério
 async function carregarSaude() {
   try {
     const dados = await SaudeAPI.calcular(veiculo.id);

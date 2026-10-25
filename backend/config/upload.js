@@ -10,9 +10,11 @@ if (!fs.existsSync(pastaDestino)) {
 }
 
 const storage = multer.diskStorage({
+  // Pasta onde o arquivo enviado será salvo
   destination: (req, file, cb) => {
     cb(null, pastaDestino);
   },
+  // Nome com que o arquivo será salvo no disco
   filename: (req, file, cb) => {
     // Nome aleatório e impossível de adivinhar: a pasta /uploads é pública, então o link do
     // arquivo é a única "senha" dele. O nome original fica salvo no banco (nome_arquivo).

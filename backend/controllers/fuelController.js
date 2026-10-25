@@ -1,5 +1,6 @@
 const pool = require('../config/database');
 
+// Confere se o veículo pertence ao usuário logado (true/false)
 async function veiculoPertenceAoUsuario(veiculoId, usuarioId) {
   const [veiculos] = await pool.query(
     'SELECT id FROM veiculos WHERE id = ? AND usuario_id = ?',
@@ -9,6 +10,8 @@ async function veiculoPertenceAoUsuario(veiculoId, usuarioId) {
 }
 
 // ===== LISTAR ABASTECIMENTOS (com consumo calculado) =====
+// O consumo (km/l) de cada abastecimento é calculado na hora, pela diferença de km
+// em relação ao abastecimento anterior. Ele não fica salvo no banco.
 async function listar(req, res) {
   try {
     const { veiculoId } = req.params;
@@ -43,6 +46,7 @@ async function listar(req, res) {
 }
 
 // ===== CADASTRAR ABASTECIMENTO =====
+// Salva o abastecimento, lança o gasto em "Combustível" e atualiza a quilometragem do veículo, se for maior
 async function cadastrar(req, res) {
   try {
     const { veiculoId } = req.params;
@@ -87,6 +91,7 @@ async function cadastrar(req, res) {
 }
 
 // ===== EDITAR ABASTECIMENTO =====
+// Atualiza o abastecimento e o gasto vinculado a ele
 async function editar(req, res) {
   try {
     const { veiculoId, id } = req.params;
@@ -128,6 +133,7 @@ async function editar(req, res) {
 }
 
 // ===== EXCLUIR ABASTECIMENTO =====
+// Apaga o abastecimento e o gasto vinculado a ele
 async function excluir(req, res) {
   try {
     const { veiculoId, id } = req.params;
@@ -156,6 +162,7 @@ async function excluir(req, res) {
 }
 
 // ===== ESTATÍSTICAS DE CONSUMO E GASTOS =====
+// Calcula o consumo médio geral, o preço médio do litro e o gasto com combustível no mês e no ano
 async function estatisticas(req, res) {
   try {
     const { veiculoId } = req.params;

@@ -19,6 +19,8 @@ const CORES_CATEGORIA = {
   'Outros': '#94A3B8'
 };
 
+// ===== CARREGAR DASHBOARD =====
+// Busca o resumo do veículo e preenche os indicadores, os gráficos e a lista de manutenções
 async function carregarDashboard() {
   try {
     const dados = await DashboardAPI.resumo(veiculo.id);
@@ -64,6 +66,7 @@ async function carregarDashboard() {
   }
 }
 
+// Desenha o gráfico de pizza dos gastos por categoria (CSS conic-gradient), com a legenda
 function renderizarGraficoPizza(categorias) {
   const container = document.getElementById('graficoCategoria');
 
@@ -100,6 +103,7 @@ function renderizarGraficoPizza(categorias) {
   `;
 }
 
+// Desenha o gráfico de barras dos gastos mensais. A maior barra ocupa 100% da altura
 function renderizarGraficoBarras(gastosMensais) {
   const container = document.getElementById('graficoMensal');
 
@@ -129,6 +133,7 @@ function renderizarGraficoBarras(gastosMensais) {
   `;
 }
 
+// Monta a lista das manutenções mais recentes
 function renderizarListaManutencao(manutencoes) {
   const container = document.getElementById('listaManutencaoRecente');
 
@@ -152,6 +157,7 @@ function renderizarListaManutencao(manutencoes) {
   `;
 }
 
+// Desenha o gráfico de barras do consumo (km/l) entre abastecimentos seguidos
 function renderizarGraficoConsumo(abastecimentos) {
   const container = document.getElementById('graficoConsumo');
 
@@ -191,6 +197,7 @@ function renderizarGraficoConsumo(abastecimentos) {
 }
 
 // ===== BAIXAR RELATÓRIO PDF =====
+// Gera o PDF do veículo na API e baixa no navegador
 document.getElementById('btnBaixarRelatorio').addEventListener('click', async () => {
   try {
     await RelatoriosAPI.baixarCompleto(veiculo.id);

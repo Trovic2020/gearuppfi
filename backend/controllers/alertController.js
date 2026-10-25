@@ -1,5 +1,6 @@
 const pool = require('../config/database');
 
+// Confere se o veículo pertence ao usuário logado. Retorna o veículo (com a quilometragem) ou null
 async function veiculoPertenceAoUsuario(veiculoId, usuarioId) {
   const [veiculos] = await pool.query(
     'SELECT id, quilometragem_atual FROM veiculos WHERE id = ? AND usuario_id = ?',
@@ -42,6 +43,8 @@ async function salvarAlerta(veiculoId, tipoAlerta, origemTipo, origemId, titulo,
 }
 
 // ===== GERA/ATUALIZA ALERTAS DE UM VEÍCULO (chamada interna, reutilizável) =====
+// Verifica pneus (80% ou mais da vida útil), seguros e documentos (vencidos ou vencendo em até 30 dias)
+// e cria/atualiza um alerta para cada situação. Roda ao listar os alertas e ao carregar o dashboard.
 async function gerarAlertasDoVeiculo(veiculoId, quilometragemAtual) {
   // --- PNEUS ---
   const [pneus] = await pool.query(
@@ -108,6 +111,7 @@ async function gerarAlertasDoVeiculo(veiculoId, quilometragemAtual) {
 }
 
 // ===== LISTAR ALERTAS (gera antes de listar, pra estar sempre atualizado) =====
+// Retorna os alertas do veículo, do mais recente para o mais antigo (filtro opcional ?status=)
 async function listar(req, res) {
   try {
     const { veiculoId } = req.params;
@@ -139,6 +143,7 @@ async function listar(req, res) {
 }
 
 // ===== MARCAR ALERTA COMO RESOLVIDO OU IGNORADO =====
+// Recebe o novo status no body (Pendente, Resolvido ou Ignorado) e salva no alerta
 async function atualizarStatus(req, res) {
   try {
     const { veiculoId, id } = req.params;

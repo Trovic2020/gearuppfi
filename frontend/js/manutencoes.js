@@ -14,6 +14,7 @@ const formItem = document.getElementById('formItem');
 const tituloModal = document.getElementById('tituloModal');
 
 // ===== CARREGAR OFICINAS NO SELECT =====
+// Busca as oficinas do usuário e adiciona cada uma como opção no select do formulário
 async function carregarOficinasNoSelect() {
   try {
     const oficinas = await OficinasAPI.listar();
@@ -30,6 +31,7 @@ async function carregarOficinasNoSelect() {
 }
 
 // ===== CARREGAR MANUTENÇÕES =====
+// Busca as manutenções e monta a tabela
 async function carregarLista() {
   try {
     const manutencoes = await ManutencoesAPI.listar(veiculo.id);
@@ -65,6 +67,7 @@ async function carregarLista() {
 }
 
 // ===== ABRIR MODAL: NOVA =====
+// Limpa o formulário e abre o modal para uma nova manutenção
 document.getElementById('btnNova').addEventListener('click', () => {
   tituloModal.textContent = 'Nova Manutenção';
   formItem.reset();
@@ -74,6 +77,7 @@ document.getElementById('btnNova').addEventListener('click', () => {
 });
 
 // ===== ABRIR MODAL: EDITAR =====
+// Preenche o modal com os dados da manutenção escolhida (vindos do cache da lista)
 function editarItem(id) {
   const item = window._manutencoesCache.find(m => m.id === id);
   if (!item) return;
@@ -92,6 +96,7 @@ function editarItem(id) {
 }
 
 // ===== EXCLUIR =====
+// Pede confirmação, exclui e recarrega a lista
 async function excluirItem(id) {
   if (!confirm('Tem certeza que deseja excluir esta manutenção?')) return;
 
@@ -104,11 +109,13 @@ async function excluirItem(id) {
 }
 
 // ===== FECHAR MODAL =====
+// Fecha o modal sem salvar
 document.getElementById('btnCancelar').addEventListener('click', () => {
   modal.classList.add('oculto');
 });
 
 // ===== SALVAR (CADASTRAR OU EDITAR) =====
+// Cadastra (sem id) ou edita (com id) e recarrega a lista
 formItem.addEventListener('submit', async (evento) => {
   evento.preventDefault();
   esconderMensagem('mensagemModal');

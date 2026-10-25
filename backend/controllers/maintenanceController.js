@@ -10,6 +10,7 @@ async function veiculoPertenceAoUsuario(veiculoId, usuarioId) {
 }
 
 // ===== LISTAR MANUTENÇÕES DE UM VEÍCULO =====
+// Retorna as manutenções do veículo com o nome da oficina, da mais recente para a mais antiga
 async function listar(req, res) {
   try {
     const { veiculoId } = req.params;
@@ -36,6 +37,7 @@ async function listar(req, res) {
 }
 
 // ===== BUSCAR UMA MANUTENÇÃO ESPECÍFICA =====
+// Retorna uma manutenção do veículo, com o nome da oficina
 async function buscarPorId(req, res) {
   try {
     const { veiculoId, id } = req.params;
@@ -65,6 +67,7 @@ async function buscarPorId(req, res) {
 }
 
 // ===== CADASTRAR MANUTENÇÃO =====
+// Salva a manutenção, lança o gasto em "Manutenção" (se tiver valor) e atualiza a quilometragem do veículo
 async function cadastrar(req, res) {
   try {
     const { veiculoId } = req.params;
@@ -122,6 +125,7 @@ async function cadastrar(req, res) {
 }
 
 // ===== EDITAR MANUTENÇÃO =====
+// Atualiza a manutenção e mantém o gasto vinculado em sincronia
 async function editar(req, res) {
   try {
     const { veiculoId, id } = req.params;
@@ -176,6 +180,7 @@ async function editar(req, res) {
 }
 
 // ===== EXCLUIR MANUTENÇÃO =====
+// Apaga a manutenção e o gasto vinculado a ela
 async function excluir(req, res) {
   try {
     const { veiculoId, id } = req.params;

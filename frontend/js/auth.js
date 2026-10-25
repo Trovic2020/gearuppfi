@@ -1,6 +1,7 @@
 // ===== LOGIN =====
 const formLogin = document.getElementById('formLogin');
 if (formLogin) {
+  // Envia e-mail e senha; se der certo, salva o token e o usuário e vai para a tela de veículos
   formLogin.addEventListener('submit', async (evento) => {
     evento.preventDefault();
     esconderMensagem('mensagemLogin');
@@ -30,6 +31,7 @@ if (formLogin) {
 // ===== CADASTRO =====
 const formCadastro = document.getElementById('formCadastro');
 if (formCadastro) {
+  // Confere se as senhas coincidem, cria a conta e já entra logado
   formCadastro.addEventListener('submit', async (evento) => {
     evento.preventDefault();
     esconderMensagem('mensagemCadastro');

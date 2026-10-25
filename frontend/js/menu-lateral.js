@@ -1,3 +1,5 @@
+// Monta o menu lateral das telas de um veículo: nome e placa do veículo e os links das telas.
+// paginaAtiva é o arquivo da tela atual, que fica destacado no menu.
 function renderizarMenuLateral(paginaAtiva) {
   const veiculo = exigirVeiculoSelecionado();
   if (!veiculo) return;

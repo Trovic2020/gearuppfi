@@ -1,5 +1,6 @@
 const pool = require('../config/database');
 
+// Confere se o veículo pertence ao usuário logado. Retorna o veículo (com a quilometragem) ou null
 async function veiculoPertenceAoUsuario(veiculoId, usuarioId) {
   const [veiculos] = await pool.query(
     'SELECT id, quilometragem_atual FROM veiculos WHERE id = ? AND usuario_id = ?',
@@ -9,6 +10,7 @@ async function veiculoPertenceAoUsuario(veiculoId, usuarioId) {
 }
 
 // Calcula o status de vida útil de um pneu
+// Retorna km rodados, % usado, km restante e status: OK, Atenção (80%+) ou Trocar (100%+)
 function calcularStatusPneu(pneu, quilometragemAtualVeiculo) {
   const kmRodados = quilometragemAtualVeiculo - pneu.quilometragem_instalacao;
   const percentualUsado = (kmRodados / pneu.vida_util_km) * 100;
@@ -26,6 +28,7 @@ function calcularStatusPneu(pneu, quilometragemAtualVeiculo) {
 }
 
 // ===== LISTAR PNEUS DE UM VEÍCULO (com status calculado) =====
+// Retorna os pneus ativos, cada um com o desgaste calculado pela quilometragem atual do veículo
 async function listar(req, res) {
   try {
     const { veiculoId } = req.params;
@@ -53,6 +56,7 @@ async function listar(req, res) {
 }
 
 // ===== CADASTRAR PNEU =====
+// Salva um pneu. Sem posição, assume "Jogo Completo"; sem vida útil, assume 50.000 km
 async function cadastrar(req, res) {
   try {
     const { veiculoId } = req.params;
@@ -84,6 +88,7 @@ async function cadastrar(req, res) {
 }
 
 // ===== EDITAR PNEU =====
+// Atualiza os dados de um pneu (com os mesmos valores padrão do cadastro)
 async function editar(req, res) {
   try {
     const { veiculoId, id } = req.params;
@@ -117,6 +122,7 @@ async function editar(req, res) {
 }
 
 // ===== EXCLUIR (soft delete, ex: quando o pneu é substituído) =====
+// Também apaga o alerta pendente ligado ao pneu
 async function excluir(req, res) {
   try {
     const { veiculoId, id } = req.params;

@@ -13,6 +13,7 @@ const modal = document.getElementById('modal');
 const formItem = document.getElementById('formItem');
 const tituloModal = document.getElementById('tituloModal');
 
+// Mapeia o status de vencimento retornado pela API para a classe visual do badge
 function classeBadgeStatus(status) {
   if (status === 'Vencido') return 'badge-critico';
   if (status === 'Vence em breve') return 'badge-atencao';
@@ -20,6 +21,7 @@ function classeBadgeStatus(status) {
 }
 
 // ===== CARREGAR LISTA =====
+// Busca os seguros e monta a tabela com o status de vencimento. Guarda a lista em cache para a edição
 async function carregarLista() {
   try {
     const seguros = await SegurosAPI.listar(veiculo.id);
@@ -55,6 +57,7 @@ async function carregarLista() {
 }
 
 // ===== ABRIR MODAL: NOVO =====
+// Limpa o formulário e abre o modal para um novo seguro
 document.getElementById('btnNova').addEventListener('click', () => {
   tituloModal.textContent = 'Novo Seguro';
   formItem.reset();
@@ -64,6 +67,7 @@ document.getElementById('btnNova').addEventListener('click', () => {
 });
 
 // ===== ABRIR MODAL: EDITAR =====
+// Preenche o modal com os dados do seguro escolhido (vindos do cache da lista)
 function editarItem(id) {
   const item = window._segurosCache.find(s => s.id === id);
   if (!item) return;
@@ -81,6 +85,7 @@ function editarItem(id) {
 }
 
 // ===== EXCLUIR =====
+// Pede confirmação, exclui e recarrega a lista
 async function excluirItem(id) {
   if (!confirm('Tem certeza que deseja excluir este seguro?')) return;
 
@@ -93,11 +98,13 @@ async function excluirItem(id) {
 }
 
 // ===== FECHAR MODAL =====
+// Fecha o modal sem salvar
 document.getElementById('btnCancelar').addEventListener('click', () => {
   modal.classList.add('oculto');
 });
 
 // ===== SALVAR =====
+// Cadastra (sem id) ou edita (com id) e recarrega a lista
 formItem.addEventListener('submit', async (evento) => {
   evento.preventDefault();
   esconderMensagem('mensagemModal');

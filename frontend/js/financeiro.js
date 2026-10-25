@@ -31,6 +31,7 @@ const ORIGEM_LABEL = {
 };
 
 // ===== CARREGAR GRÁFICOS =====
+// Busca os resumos por categoria e por mês e desenha os dois gráficos
 async function carregarGraficos() {
   try {
     const categorias = await GastosAPI.resumoPorCategoria(veiculo.id);
@@ -43,6 +44,7 @@ async function carregarGraficos() {
   }
 }
 
+// Desenha o gráfico de pizza dos gastos por categoria (CSS conic-gradient), com a legenda
 function renderizarGraficoPizza(categorias) {
   const container = document.getElementById('graficoCategoria');
 
@@ -77,6 +79,7 @@ function renderizarGraficoPizza(categorias) {
   `;
 }
 
+// Desenha o gráfico de barras dos gastos dos últimos 12 meses
 function renderizarGraficoBarras(mensal) {
   const container = document.getElementById('graficoMensal');
 
@@ -106,6 +109,8 @@ function renderizarGraficoBarras(mensal) {
 }
 
 // ===== CARREGAR LISTA DE GASTOS =====
+// Busca os gastos (com o filtro de categoria escolhido) e monta a tabela.
+// Só os lançamentos manuais ganham botão de excluir.
 async function carregarLista() {
   try {
     const categoriaFiltro = document.getElementById('filtroCategoria').value;
@@ -137,9 +142,11 @@ async function carregarLista() {
   }
 }
 
+// Recarrega a lista quando o filtro de categoria muda
 document.getElementById('filtroCategoria').addEventListener('change', carregarLista);
 
 // ===== EXCLUIR (só manuais) =====
+// Pede confirmação, exclui o gasto manual e recarrega a lista e os gráficos
 async function excluirItem(id) {
   if (!confirm('Tem certeza que deseja excluir este lançamento?')) return;
 
@@ -153,17 +160,20 @@ async function excluirItem(id) {
 }
 
 // ===== ABRIR/FECHAR MODAL =====
+// Limpa o formulário e abre o modal para um novo gasto manual
 document.getElementById('btnNova').addEventListener('click', () => {
   formItem.reset();
   esconderMensagem('mensagemModal');
   modal.classList.remove('oculto');
 });
 
+// Fecha o modal sem salvar
 document.getElementById('btnCancelar').addEventListener('click', () => {
   modal.classList.add('oculto');
 });
 
 // ===== SALVAR GASTO MANUAL =====
+// Envia o gasto manual e recarrega a lista e os gráficos
 formItem.addEventListener('submit', async (evento) => {
   evento.preventDefault();
   esconderMensagem('mensagemModal');

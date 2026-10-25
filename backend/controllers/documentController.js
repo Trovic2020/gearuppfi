@@ -2,6 +2,7 @@ const pool = require('../config/database');
 const fs = require('fs');
 const path = require('path');
 
+// Confere se o veículo pertence ao usuário logado (true/false)
 async function veiculoPertenceAoUsuario(veiculoId, usuarioId) {
   const [veiculos] = await pool.query(
     'SELECT id FROM veiculos WHERE id = ? AND usuario_id = ?',
@@ -11,6 +12,7 @@ async function veiculoPertenceAoUsuario(veiculoId, usuarioId) {
 }
 
 // ===== LISTAR DOCUMENTOS DE UM VEÍCULO =====
+// Retorna os documentos do veículo, cada um com a URL pública do arquivo
 async function listar(req, res) {
   try {
     const { veiculoId } = req.params;
@@ -39,6 +41,7 @@ async function listar(req, res) {
 }
 
 // ===== UPLOAD DE NOVO DOCUMENTO =====
+// Salva no banco o arquivo já gravado pelo multer. Se a validação falhar, apaga o arquivo
 async function cadastrar(req, res) {
   try {
     const { veiculoId } = req.params;
@@ -78,6 +81,7 @@ async function cadastrar(req, res) {
 }
 
 // ===== EXCLUIR DOCUMENTO (remove do banco E do disco) =====
+// Também apaga o alerta pendente ligado ao documento
 async function excluir(req, res) {
   try {
     const { veiculoId, id } = req.params;

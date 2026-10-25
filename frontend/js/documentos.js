@@ -25,6 +25,7 @@ const ICONES_TIPO = {
 const BASE_URL_ARQUIVOS = 'http://localhost:3000';
 
 // ===== CARREGAR LISTA =====
+// Busca os documentos e monta os cards com os botões Visualizar e Excluir
 async function carregarLista() {
   try {
     const documentos = await DocumentosAPI.listar(veiculo.id);
@@ -60,6 +61,7 @@ async function carregarLista() {
 }
 
 // ===== ABRIR MODAL =====
+// Limpa o formulário e abre o modal de envio
 document.getElementById('btnNova').addEventListener('click', () => {
   formItem.reset();
   esconderMensagem('mensagemModal');
@@ -67,11 +69,13 @@ document.getElementById('btnNova').addEventListener('click', () => {
 });
 
 // ===== FECHAR MODAL =====
+// Fecha o modal sem enviar
 document.getElementById('btnCancelar').addEventListener('click', () => {
   modal.classList.add('oculto');
 });
 
 // ===== EXCLUIR =====
+// Pede confirmação e exclui o documento (o arquivo também é apagado no servidor)
 async function excluirItem(id) {
   if (!confirm('Tem certeza que deseja excluir este documento? O arquivo será apagado permanentemente.')) return;
 
@@ -84,6 +88,7 @@ async function excluirItem(id) {
 }
 
 // ===== ENVIAR (UPLOAD) =====
+// Monta um FormData com o arquivo e os campos e envia para a API
 formItem.addEventListener('submit', async (evento) => {
   evento.preventDefault();
   esconderMensagem('mensagemModal');

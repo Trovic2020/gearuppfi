@@ -1,5 +1,6 @@
 const pool = require('../config/database');
 
+// Confere se o veículo pertence ao usuário logado (true/false)
 async function veiculoPertenceAoUsuario(veiculoId, usuarioId) {
   const [veiculos] = await pool.query(
     'SELECT id FROM veiculos WHERE id = ? AND usuario_id = ?',
@@ -9,6 +10,7 @@ async function veiculoPertenceAoUsuario(veiculoId, usuarioId) {
 }
 
 // Calcula status de vencimento a partir de uma data
+// Retorna os dias restantes e o status: Vencido, Vence em breve (até 30 dias) ou Em dia
 function calcularStatusVencimento(dataVencimento) {
   const hoje = new Date();
   hoje.setHours(0, 0, 0, 0);
@@ -25,6 +27,7 @@ function calcularStatusVencimento(dataVencimento) {
 }
 
 // ===== LISTAR SEGUROS DE UM VEÍCULO (com status calculado) =====
+// Retorna os seguros ativos, do vencimento mais próximo para o mais distante
 async function listar(req, res) {
   try {
     const { veiculoId } = req.params;
@@ -52,6 +55,7 @@ async function listar(req, res) {
 }
 
 // ===== CADASTRAR SEGURO =====
+// Salva o seguro e, se tiver valor, lança o gasto em "Seguro"
 async function cadastrar(req, res) {
   try {
     const { veiculoId } = req.params;
@@ -92,6 +96,7 @@ async function cadastrar(req, res) {
 }
 
 // ===== EDITAR SEGURO =====
+// Atualiza o seguro e mantém o gasto vinculado em sincronia
 async function editar(req, res) {
   try {
     const { veiculoId, id } = req.params;
@@ -142,6 +147,8 @@ async function editar(req, res) {
 }
 
 // ===== EXCLUIR SEGURO =====
+// Soft delete (ativo = FALSE): o seguro some da lista, mas continua no banco.
+// Também remove o gasto e o alerta pendente ligados a ele.
 async function excluir(req, res) {
   try {
     const { veiculoId, id } = req.params;

@@ -2,6 +2,9 @@
 const API_URL = 'http://localhost:3000/api';
 
 // ===== FUNÇÃO GENÉRICA DE REQUISIÇÃO =====
+// Faz qualquer chamada à API: envia o token, converte os dados em JSON (ou manda o FormData
+// quando comArquivo = true) e lança um erro com a mensagem da API se a resposta não for OK.
+// Retorna o JSON da resposta, ou um Blob quando a resposta é um arquivo (ex: PDF).
 async function apiRequest(endpoint, metodo = 'GET', dados = null, comArquivo = false) {
   const token = localStorage.getItem('gearup_token');
 
@@ -55,6 +58,7 @@ async function apiRequest(endpoint, metodo = 'GET', dados = null, comArquivo = f
 }
 
 // ===== MÓDULO: AUTENTICAÇÃO =====
+// Cadastro, login, perfil e senha (/api/auth)
 const AuthAPI = {
   cadastrar: (dados) => apiRequest('/auth/cadastro', 'POST', dados),
   login: (dados) => apiRequest('/auth/login', 'POST', dados),
@@ -66,6 +70,7 @@ const AuthAPI = {
 };
 
 // ===== MÓDULO: VEÍCULOS =====
+// CRUD de veículos, atualização da quilometragem e envio da foto (/api/veiculos)
 const VeiculosAPI = {
   listar: () => apiRequest('/veiculos'),
   buscarPorId: (id) => apiRequest(`/veiculos/${id}`),
@@ -77,6 +82,7 @@ const VeiculosAPI = {
 };
 
 // ===== MÓDULO: MANUTENÇÕES =====
+// Listar, cadastrar, editar e excluir as manutenções de um veículo
 const ManutencoesAPI = {
   listar: (veiculoId) => apiRequest(`/veiculos/${veiculoId}/manutencoes`),
   cadastrar: (veiculoId, dados) => apiRequest(`/veiculos/${veiculoId}/manutencoes`, 'POST', dados),
@@ -85,6 +91,7 @@ const ManutencoesAPI = {
 };
 
 // ===== MÓDULO: ABASTECIMENTOS =====
+// Listar, cadastrar, editar e excluir abastecimentos, mais as estatísticas de consumo
 const AbastecimentosAPI = {
   listar: (veiculoId) => apiRequest(`/veiculos/${veiculoId}/abastecimentos`),
   estatisticas: (veiculoId) => apiRequest(`/veiculos/${veiculoId}/abastecimentos/estatisticas`),
@@ -94,6 +101,7 @@ const AbastecimentosAPI = {
 };
 
 // ===== MÓDULO: PNEUS =====
+// Listar, cadastrar, editar e excluir os pneus de um veículo
 const PneusAPI = {
   listar: (veiculoId) => apiRequest(`/veiculos/${veiculoId}/pneus`),
   cadastrar: (veiculoId, dados) => apiRequest(`/veiculos/${veiculoId}/pneus`, 'POST', dados),
@@ -102,6 +110,7 @@ const PneusAPI = {
 };
 
 // ===== MÓDULO: SEGUROS =====
+// Listar, cadastrar, editar e excluir os seguros de um veículo
 const SegurosAPI = {
   listar: (veiculoId) => apiRequest(`/veiculos/${veiculoId}/seguros`),
   cadastrar: (veiculoId, dados) => apiRequest(`/veiculos/${veiculoId}/seguros`, 'POST', dados),
@@ -110,6 +119,7 @@ const SegurosAPI = {
 };
 
 // ===== MÓDULO: DOCUMENTOS =====
+// Listar, enviar (upload com FormData) e excluir os documentos de um veículo
 const DocumentosAPI = {
   listar: (veiculoId) => apiRequest(`/veiculos/${veiculoId}/documentos`),
   cadastrar: (veiculoId, formData) => apiRequest(`/veiculos/${veiculoId}/documentos`, 'POST', formData, true),
@@ -117,6 +127,7 @@ const DocumentosAPI = {
 };
 
 // ===== MÓDULO: OFICINAS =====
+// CRUD de oficinas. excluir(id, true) força a exclusão mesmo com manutenções vinculadas
 const OficinasAPI = {
   listar: () => apiRequest('/oficinas'),
   cadastrar: (dados) => apiRequest('/oficinas', 'POST', dados),
@@ -125,6 +136,7 @@ const OficinasAPI = {
 };
 
 // ===== MÓDULO: GASTOS =====
+// Listar gastos (filtros na query string), resumos para os gráficos e CRUD de gastos manuais
 const GastosAPI = {
   listar: (veiculoId, filtros = '') => apiRequest(`/veiculos/${veiculoId}/gastos${filtros}`),
   resumoPorCategoria: (veiculoId) => apiRequest(`/veiculos/${veiculoId}/gastos/resumo-categoria`),
@@ -135,22 +147,26 @@ const GastosAPI = {
 };
 
 // ===== MÓDULO: ALERTAS =====
+// Listar alertas (filtro opcional por status) e mudar o status de um alerta
 const AlertasAPI = {
   listar: (veiculoId, status = '') => apiRequest(`/veiculos/${veiculoId}/alertas${status ? '?status=' + status : ''}`),
   atualizarStatus: (veiculoId, id, status) => apiRequest(`/veiculos/${veiculoId}/alertas/${id}/status`, 'PATCH', { status })
 };
 
 // ===== MÓDULO: DASHBOARD =====
+// Busca todos os dados do painel do veículo
 const DashboardAPI = {
   resumo: (veiculoId) => apiRequest(`/veiculos/${veiculoId}/dashboard`)
 };
 
 // ===== MÓDULO: SAÚDE DO VEÍCULO =====
+// Busca a pontuação de saúde do veículo
 const SaudeAPI = {
   calcular: (veiculoId) => apiRequest(`/veiculos/${veiculoId}/saude`)
 };
 
 // ===== MÓDULO: RELATÓRIOS =====
+// baixarCompleto: pede o PDF à API e força o download no navegador
 const RelatoriosAPI = {
   baixarCompleto: async (veiculoId) => {
     const blob = await apiRequest(`/veiculos/${veiculoId}/relatorios/completo`);

@@ -5,11 +5,13 @@ const pool = require('../config/database');
 require('dotenv').config();
 
 // Validações simples reutilizáveis
+// Retorna true se o texto tiver formato de e-mail (algo@dominio.com)
 function emailValido(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 // ===== CADASTRO =====
+// Cria o usuário (senha criptografada com bcrypt) e já devolve o token JWT, para entrar logado
 async function cadastrar(req, res) {
   try {
     const { nome, email, telefone, senha } = req.body;
@@ -55,6 +57,7 @@ async function cadastrar(req, res) {
 }
 
 // ===== LOGIN =====
+// Confere e-mail e senha e devolve o token JWT (válido por 7 dias) com os dados do usuário
 async function login(req, res) {
   try {
     const { email, senha } = req.body;
@@ -96,6 +99,7 @@ async function login(req, res) {
 }
 
 // ===== BUSCAR PERFIL (usuário logado) =====
+// Retorna os dados do usuário logado (sem a senha)
 async function buscarPerfil(req, res) {
   try {
     const [usuarios] = await pool.query(
@@ -116,6 +120,7 @@ async function buscarPerfil(req, res) {
 }
 
 // ===== EDITAR PERFIL =====
+// Atualiza o nome e o telefone do usuário logado
 async function editarPerfil(req, res) {
   try {
     const { nome, telefone } = req.body;
@@ -138,6 +143,7 @@ async function editarPerfil(req, res) {
 }
 
 // ===== ALTERAR SENHA (usuário logado, sabendo a senha atual) =====
+// Confere a senha atual e grava a nova senha criptografada
 async function alterarSenha(req, res) {
   try {
     const { senhaAtual, novaSenha } = req.body;
@@ -169,6 +175,8 @@ async function alterarSenha(req, res) {
 }
 
 // ===== SOLICITAR RECUPERAÇÃO DE SENHA (esqueci minha senha) =====
+// Gera um token de recuperação válido por 1 hora e salva no usuário.
+// Em modo de desenvolvimento o token volta na resposta (tokenDev), em vez de ir por e-mail.
 async function solicitarRecuperacao(req, res) {
   try {
     const { email } = req.body;
@@ -206,6 +214,7 @@ async function solicitarRecuperacao(req, res) {
 }
 
 // ===== REDEFINIR SENHA COM TOKEN =====
+// Troca a senha se o token de recuperação existir e não tiver expirado; depois apaga o token
 async function redefinirSenha(req, res) {
   try {
     const { token, novaSenha } = req.body;

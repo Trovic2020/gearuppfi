@@ -7,6 +7,7 @@
   const duracao = 1800; // ms — mesmo tempo da animação CSS do círculo
   const inicio = performance.now();
 
+  // Atualiza o número a cada quadro da animação, até chegar no valor final
   function passo(agora) {
     const progresso = Math.min((agora - inicio) / duracao, 1);
     // easing suave no final, parecido com o do círculo (cubic-bezier aproximado)

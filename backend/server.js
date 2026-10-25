@@ -25,6 +25,7 @@ app.use('/api/veiculos', require('./routes/vehicleRoutes'));
 app.use('/api/oficinas', require('./routes/workshopRoutes'));
 
 const PORT = process.env.PORT || 3000;
+// Inicia o servidor HTTP na porta configurada
 app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
 });

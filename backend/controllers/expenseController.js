@@ -1,5 +1,6 @@
 const pool = require('../config/database');
 
+// Confere se o veículo pertence ao usuário logado (true/false)
 async function veiculoPertenceAoUsuario(veiculoId, usuarioId) {
   const [veiculos] = await pool.query(
     'SELECT id FROM veiculos WHERE id = ? AND usuario_id = ?',
@@ -9,6 +10,7 @@ async function veiculoPertenceAoUsuario(veiculoId, usuarioId) {
 }
 
 // ===== LISTAR GASTOS DE UM VEÍCULO (com filtros opcionais) =====
+// Filtros opcionais na query string: ?categoria=, ?mes= e ?ano=
 async function listar(req, res) {
   try {
     const { veiculoId } = req.params;
@@ -46,6 +48,7 @@ async function listar(req, res) {
 }
 
 // ===== LANÇAR GASTO MANUAL =====
+// Cria um gasto com origem_tipo = 'manual' (os automáticos vêm de abastecimento, manutenção e seguro)
 async function cadastrar(req, res) {
   try {
     const { veiculoId } = req.params;
@@ -81,6 +84,7 @@ async function cadastrar(req, res) {
 }
 
 // ===== EDITAR GASTO (somente os lançados manualmente) =====
+// Gastos automáticos só podem ser editados na tela de origem (abastecimento, manutenção ou seguro)
 async function editar(req, res) {
   try {
     const { veiculoId, id } = req.params;
@@ -120,6 +124,7 @@ async function editar(req, res) {
 }
 
 // ===== EXCLUIR GASTO (somente os lançados manualmente) =====
+// Gastos automáticos só podem ser excluídos na tela de origem (abastecimento, manutenção ou seguro)
 async function excluir(req, res) {
   try {
     const { veiculoId, id } = req.params;
@@ -150,6 +155,7 @@ async function excluir(req, res) {
 }
 
 // ===== RESUMO: GASTOS POR CATEGORIA =====
+// Soma e conta os gastos de cada categoria (filtro opcional ?ano=). Usado no gráfico de pizza
 async function resumoPorCategoria(req, res) {
   try {
     const { veiculoId } = req.params;
@@ -180,6 +186,7 @@ async function resumoPorCategoria(req, res) {
 }
 
 // ===== RESUMO: GASTOS MENSAIS (últimos 12 meses) =====
+// Soma os gastos de cada mês. Usado no gráfico de barras
 async function resumoMensal(req, res) {
   try {
     const { veiculoId } = req.params;

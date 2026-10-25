@@ -14,6 +14,7 @@ const formItem = document.getElementById('formItem');
 const tituloModal = document.getElementById('tituloModal');
 
 // ===== CARREGAR INDICADORES (estatísticas) =====
+// Busca as estatísticas e preenche os cards de consumo médio, preço do litro e gastos
 async function carregarIndicadores() {
   try {
     const stats = await AbastecimentosAPI.estatisticas(veiculo.id);
@@ -42,6 +43,7 @@ async function carregarIndicadores() {
 }
 
 // ===== CARREGAR LISTA =====
+// Busca os abastecimentos e monta a tabela. Guarda a lista em cache para a edição
 async function carregarLista() {
   try {
     const abastecimentos = await AbastecimentosAPI.listar(veiculo.id);
@@ -77,6 +79,7 @@ async function carregarLista() {
 }
 
 // ===== ABRIR MODAL: NOVO =====
+// Limpa o formulário e abre o modal para um novo abastecimento
 document.getElementById('btnNova').addEventListener('click', () => {
   tituloModal.textContent = 'Novo Abastecimento';
   formItem.reset();
@@ -87,6 +90,7 @@ document.getElementById('btnNova').addEventListener('click', () => {
 });
 
 // ===== ABRIR MODAL: EDITAR =====
+// Preenche o modal com os dados do abastecimento escolhido (vindos do cache da lista)
 function editarItem(id) {
   const item = window._abastecimentosCache.find(a => a.id === id);
   if (!item) return;
@@ -106,6 +110,7 @@ function editarItem(id) {
 }
 
 // ===== EXCLUIR =====
+// Pede confirmação, exclui e recarrega a lista e os indicadores
 async function excluirItem(id) {
   if (!confirm('Tem certeza que deseja excluir este abastecimento?')) return;
 
@@ -119,11 +124,13 @@ async function excluirItem(id) {
 }
 
 // ===== FECHAR MODAL =====
+// Fecha o modal sem salvar
 document.getElementById('btnCancelar').addEventListener('click', () => {
   modal.classList.add('oculto');
 });
 
 // ===== SALVAR =====
+// Cadastra (sem id) ou edita (com id) e recarrega a lista e os indicadores
 formItem.addEventListener('submit', async (evento) => {
   evento.preventDefault();
   esconderMensagem('mensagemModal');

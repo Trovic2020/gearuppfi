@@ -1,6 +1,7 @@
 const pool = require('../config/database');
 const PDFDocument = require('pdfkit');
 
+// Busca o veículo, desde que pertença ao usuário logado. Retorna null se não pertencer
 async function buscarVeiculoDoUsuario(veiculoId, usuarioId) {
   const [veiculos] = await pool.query(
     'SELECT * FROM veiculos WHERE id = ? AND usuario_id = ?',
@@ -9,15 +10,20 @@ async function buscarVeiculoDoUsuario(veiculoId, usuarioId) {
   return veiculos.length > 0 ? veiculos[0] : null;
 }
 
+// Formata um número como moeda para o PDF: 1234.5 vira "R$ 1234,50"
 function formatarMoeda(valor) {
   return `R$ ${parseFloat(valor || 0).toFixed(2).replace('.', ',')}`;
 }
 
+// Formata uma data no padrão brasileiro (dd/mm/aaaa). Sem data, mostra "-"
 function formatarData(data) {
   if (!data) return '-';
   return new Date(data).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
 }
 
+// ===== RELATÓRIO COMPLETO EM PDF =====
+// Busca os dados do veículo e monta um PDF (PDFKit) enviado direto na resposta, como download.
+// Seções: dados do veículo, seguro, documentos, gastos, manutenções e abastecimentos.
 async function gerarRelatorioCompleto(req, res) {
   try {
     const { veiculoId } = req.params;

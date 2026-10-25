@@ -20,6 +20,8 @@ if (usuario) {
 document.getElementById('btnSair').addEventListener('click', logout);
 
 // ===== CARREGAR VEÍCULOS =====
+// Busca os veículos e monta os cards (ou mostra o estado vazio).
+// Também liga os cliques: abrir o dashboard do veículo, editar e excluir.
 async function carregarVeiculos() {
   try {
     const veiculos = await VeiculosAPI.listar();
@@ -98,6 +100,7 @@ async function carregarVeiculos() {
 carregarVeiculos();
 
 // ===== ABRIR MODAL: NOVO VEÍCULO =====
+// Limpa o formulário e a prévia da foto e abre o modal para um novo veículo
 function abrirModalNovoVeiculo() {
   tituloModalVeiculo.textContent = 'Novo veículo';
   formVeiculo.reset();
@@ -112,6 +115,7 @@ document.getElementById('btnNovoVeiculo').addEventListener('click', abrirModalNo
 document.getElementById('btnNovoVeiculoVazio').addEventListener('click', abrirModalNovoVeiculo);
 
 // ===== ABRIR MODAL: EDITAR VEÍCULO =====
+// Preenche o modal com os dados do veículo e mostra a foto atual, se houver
 function abrirModalEditarVeiculo(veiculo) {
   tituloModalVeiculo.textContent = 'Editar veículo';
   document.getElementById('veiculoId').value = veiculo.id;
@@ -138,11 +142,13 @@ function abrirModalEditarVeiculo(veiculo) {
 }
 
 // ===== FECHAR MODAL =====
+// Fecha o modal sem salvar
 document.getElementById('btnCancelarVeiculo').addEventListener('click', () => {
   modalVeiculo.classList.add('oculto');
 });
 
 // ===== SALVAR (CADASTRAR OU EDITAR + FOTO) =====
+// Cadastra ou edita o veículo; se uma foto foi escolhida, envia depois (precisa do id do veículo)
 formVeiculo.addEventListener('submit', async (evento) => {
   evento.preventDefault();
   esconderMensagem('mensagemModalVeiculo');
@@ -193,6 +199,7 @@ formVeiculo.addEventListener('submit', async (evento) => {
 });
 
 // ===== PRÉVIA DA FOTO AO SELECIONAR (antes de salvar) =====
+// Lê a imagem escolhida e mostra na prévia
 document.getElementById('fotoVeiculo').addEventListener('change', (evento) => {
   const arquivo = evento.target.files[0];
   if (!arquivo) return;

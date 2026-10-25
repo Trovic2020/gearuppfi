@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 // ===== LISTAR TODOS OS VEÍCULOS DO USUÁRIO LOGADO =====
+// Retorna só os veículos ativos (os excluídos ficam escondidos), do mais novo para o mais antigo
 async function listar(req, res) {
   try {
     const [veiculos] = await pool.query(
@@ -17,6 +18,7 @@ async function listar(req, res) {
 }
 
 // ===== BUSCAR UM VEÍCULO ESPECÍFICO =====
+// Retorna um veículo, desde que pertença ao usuário logado
 async function buscarPorId(req, res) {
   try {
     const { id } = req.params;
@@ -38,6 +40,7 @@ async function buscarPorId(req, res) {
 }
 
 // ===== CADASTRAR NOVO VEÍCULO =====
+// Cria o veículo. Se a placa for de um veículo excluído do mesmo usuário, reativa esse veículo
 async function cadastrar(req, res) {
   try {
     const {
@@ -105,6 +108,7 @@ async function cadastrar(req, res) {
 }
 
 // ===== EDITAR VEÍCULO =====
+// Atualiza os dados do veículo. A foto tem rota própria (atualizarFoto)
 async function editar(req, res) {
   try {
     const { id } = req.params;
@@ -152,6 +156,7 @@ async function editar(req, res) {
 }
 
 // ===== UPLOAD/ATUALIZAÇÃO DA FOTO DO VEÍCULO =====
+// Recebe a imagem pelo multer, apaga a foto antiga do disco e salva o novo caminho no banco
 async function atualizarFoto(req, res) {
   try {
     const { id } = req.params;
@@ -197,6 +202,7 @@ async function atualizarFoto(req, res) {
 }
 
 // ===== ATUALIZAR SOMENTE A QUILOMETRAGEM (uso rápido) =====
+// Não aceita quilometragem menor que a atual
 async function atualizarQuilometragem(req, res) {
   try {
     const { id } = req.params;
@@ -231,6 +237,7 @@ async function atualizarQuilometragem(req, res) {
 }
 
 // ===== EXCLUIR VEÍCULO (soft delete) =====
+// Marca como inativo (ativo = FALSE) em vez de apagar, preservando o histórico
 async function excluir(req, res) {
   try {
     const { id } = req.params;

@@ -12,6 +12,7 @@ const formItem = document.getElementById('formItem');
 const tituloModal = document.getElementById('tituloModal');
 
 // ===== CARREGAR LISTA =====
+// Busca as oficinas e monta a tabela. Guarda a lista em cache para a edição
 async function carregarLista() {
   try {
     const oficinas = await OficinasAPI.listar();
@@ -45,6 +46,7 @@ async function carregarLista() {
 }
 
 // ===== ABRIR MODAL: NOVA =====
+// Limpa o formulário e abre o modal para uma nova oficina
 document.getElementById('btnNova').addEventListener('click', () => {
   tituloModal.textContent = 'Nova Oficina';
   formItem.reset();
@@ -54,6 +56,7 @@ document.getElementById('btnNova').addEventListener('click', () => {
 });
 
 // ===== ABRIR MODAL: EDITAR =====
+// Preenche o modal com os dados da oficina escolhida (vindos do cache da lista)
 function editarItem(id) {
   const item = window._oficinasCache.find(o => o.id === id);
   if (!item) return;
@@ -71,6 +74,7 @@ function editarItem(id) {
 }
 
 // ===== EXCLUIR =====
+// Pede confirmação e exclui. Se a oficina tiver manutenções (erro 409), pergunta de novo e força a exclusão
 async function excluirItem(id) {
   if (!confirm('Tem certeza que deseja excluir esta oficina?')) return;
 
@@ -97,11 +101,13 @@ Excluir mesmo assim? As manutenções continuam salvas, mas ficam sem oficina.`)
 }
 
 // ===== FECHAR MODAL =====
+// Fecha o modal sem salvar
 document.getElementById('btnCancelar').addEventListener('click', () => {
   modal.classList.add('oculto');
 });
 
 // ===== SALVAR =====
+// Cadastra (sem id) ou edita (com id) e recarrega a lista
 formItem.addEventListener('submit', async (evento) => {
   evento.preventDefault();
   esconderMensagem('mensagemModal');

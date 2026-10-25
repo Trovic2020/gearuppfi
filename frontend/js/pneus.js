@@ -21,6 +21,7 @@ function classeBadgeStatus(status) {
 }
 
 // ===== CARREGAR LISTA =====
+// Busca os pneus e monta a tabela com desgaste e status. Guarda a lista em cache para a edição
 async function carregarLista() {
   try {
     const pneus = await PneusAPI.listar(veiculo.id);
@@ -55,6 +56,7 @@ async function carregarLista() {
 }
 
 // ===== ABRIR MODAL: NOVO =====
+// Limpa o formulário e abre o modal para um novo pneu
 document.getElementById('btnNova').addEventListener('click', () => {
   tituloModal.textContent = 'Novo Pneu';
   formItem.reset();
@@ -64,6 +66,7 @@ document.getElementById('btnNova').addEventListener('click', () => {
 });
 
 // ===== ABRIR MODAL: EDITAR =====
+// Preenche o modal com os dados do pneu escolhido (vindos do cache da lista)
 function editarItem(id) {
   const item = window._pneusCache.find(p => p.id === id);
   if (!item) return;
@@ -83,6 +86,7 @@ function editarItem(id) {
 }
 
 // ===== EXCLUIR =====
+// Pede confirmação, exclui e recarrega a lista
 async function excluirItem(id) {
   if (!confirm('Tem certeza que deseja excluir este pneu?')) return;
 
@@ -95,11 +99,13 @@ async function excluirItem(id) {
 }
 
 // ===== FECHAR MODAL =====
+// Fecha o modal sem salvar
 document.getElementById('btnCancelar').addEventListener('click', () => {
   modal.classList.add('oculto');
 });
 
 // ===== SALVAR =====
+// Cadastra (sem id) ou edita (com id) e recarrega a lista
 formItem.addEventListener('submit', async (evento) => {
   evento.preventDefault();
   esconderMensagem('mensagemModal');

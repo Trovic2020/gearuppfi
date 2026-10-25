@@ -22,6 +22,7 @@ const ICONES_TIPO = {
 let statusAtivo = 'Pendente';
 
 // ===== CARREGAR ALERTAS =====
+// Busca os alertas do status da aba ativa e monta os cards (os pendentes ganham Resolver/Ignorar)
 async function carregarLista() {
   try {
     const alertas = await AlertasAPI.listar(veiculo.id, statusAtivo);
@@ -60,6 +61,7 @@ async function carregarLista() {
 }
 
 // ===== ATUALIZAR STATUS =====
+// Muda o status do alerta (Resolvido ou Ignorado) e recarrega a lista
 async function atualizarStatus(id, novoStatus) {
   try {
     await AlertasAPI.atualizarStatus(veiculo.id, id, novoStatus);
@@ -70,6 +72,7 @@ async function atualizarStatus(id, novoStatus) {
 }
 
 // ===== FILTRO POR ABAS =====
+// Ao clicar numa aba, marca ela como ativa e lista os alertas daquele status
 document.querySelectorAll('.filtro-tab').forEach(tab => {
   tab.addEventListener('click', () => {
     document.querySelectorAll('.filtro-tab').forEach(t => t.classList.remove('ativo'));

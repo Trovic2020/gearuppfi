@@ -1,5 +1,6 @@
 const pool = require('../config/database');
 
+// Busca o veículo, desde que pertença ao usuário logado. Retorna null se não pertencer
 async function buscarVeiculoDoUsuario(veiculoId, usuarioId) {
   const [veiculos] = await pool.query(
     'SELECT * FROM veiculos WHERE id = ? AND usuario_id = ?',
@@ -8,6 +9,9 @@ async function buscarVeiculoDoUsuario(veiculoId, usuarioId) {
   return veiculos.length > 0 ? veiculos[0] : null;
 }
 
+// ===== SAÚDE DO VEÍCULO =====
+// Dá até 20 pontos para cada critério (seguro, documentos, pneus, troca de óleo e manutenções)
+// e classifica o total: 90+ Excelente, 60+ Atenção, abaixo disso Necessita manutenção.
 async function calcularSaude(req, res) {
   try {
     const { veiculoId } = req.params;

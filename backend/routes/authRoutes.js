@@ -4,14 +4,21 @@ const authController = require('../controllers/authController');
 const authMiddleware = require('../middlewares/authMiddleware');
 
 // Rotas públicas
+// POST /api/auth/cadastro — cria a conta e já devolve o token de login
 router.post('/cadastro', authController.cadastrar);
+// POST /api/auth/login — confere e-mail e senha e devolve o token JWT
 router.post('/login', authController.login);
+// POST /api/auth/esqueci-senha — gera o token de recuperação de senha (modo dev: volta na resposta)
 router.post('/esqueci-senha', authController.solicitarRecuperacao);
+// POST /api/auth/redefinir-senha — troca a senha usando o token de recuperação
 router.post('/redefinir-senha', authController.redefinirSenha);
 
 // Rotas protegidas (precisam estar logado)
+// GET /api/auth/perfil — dados do usuário logado
 router.get('/perfil', authMiddleware, authController.buscarPerfil);
+// PUT /api/auth/perfil — edita nome e telefone do usuário logado
 router.put('/perfil', authMiddleware, authController.editarPerfil);
+// PUT /api/auth/alterar-senha — troca a senha informando a senha atual
 router.put('/alterar-senha', authMiddleware, authController.alterarSenha);
 
 module.exports = router;

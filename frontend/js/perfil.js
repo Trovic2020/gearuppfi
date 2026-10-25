@@ -3,6 +3,7 @@ exigirLogin();
 document.getElementById('btnSair').addEventListener('click', logout);
 
 // ===== CARREGAR DADOS ATUAIS =====
+// Preenche o formulário com os dados do usuário vindos da API
 async function carregarPerfil() {
   try {
     const dados = await AuthAPI.buscarPerfil();
@@ -17,6 +18,7 @@ async function carregarPerfil() {
 }
 
 // ===== SALVAR DADOS PESSOAIS =====
+// Salva nome e telefone e atualiza o nome guardado no localStorage
 document.getElementById('formPerfil').addEventListener('submit', async (evento) => {
   evento.preventDefault();
   esconderMensagem('mensagemPerfil');
@@ -49,6 +51,7 @@ document.getElementById('formPerfil').addEventListener('submit', async (evento) 
 });
 
 // ===== ALTERAR SENHA =====
+// Confere se as novas senhas coincidem e envia a troca de senha
 document.getElementById('formSenha').addEventListener('submit', async (evento) => {
   evento.preventDefault();
   esconderMensagem('mensagemSenha');
