@@ -15,25 +15,6 @@ async function listar(req, res) {
   }
 }
 
-// ===== BUSCAR UMA OFICINA =====
-// Retorna uma oficina, desde que pertença ao usuário logado
-async function buscarPorId(req, res) {
-  try {
-    const { id } = req.params;
-    const [oficinas] = await pool.query(
-      'SELECT * FROM oficinas WHERE id = ? AND usuario_id = ?',
-      [id, req.usuarioId]
-    );
-    if (oficinas.length === 0) {
-      return res.status(404).json({ erro: 'Oficina não encontrada.' });
-    }
-    return res.json(oficinas[0]);
-  } catch (erro) {
-    console.error(erro);
-    return res.status(500).json({ erro: 'Erro ao buscar oficina.' });
-  }
-}
-
 // ===== CADASTRAR OFICINA =====
 // Cria uma oficina. Só o nome é obrigatório
 async function cadastrar(req, res) {
@@ -129,4 +110,4 @@ async function excluir(req, res) {
   }
 }
 
-module.exports = { listar, buscarPorId, cadastrar, editar, excluir };
+module.exports = { listar, cadastrar, editar, excluir };

@@ -48,10 +48,6 @@ h1, h2, h3, h4 {
   letter-spacing: -0.01em;
 }
 
-/* elementos decorativos do visual antigo */
-.fundo-grade,
-.etiqueta-tecnica { display: none; }
-
 .nav-logo {
   display: flex;
   align-items: center;

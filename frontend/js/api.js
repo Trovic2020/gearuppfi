@@ -64,19 +64,15 @@ const AuthAPI = {
   login: (dados) => apiRequest('/auth/login', 'POST', dados),
   buscarPerfil: () => apiRequest('/auth/perfil'),
   editarPerfil: (dados) => apiRequest('/auth/perfil', 'PUT', dados),
-  alterarSenha: (dados) => apiRequest('/auth/alterar-senha', 'PUT', dados),
-  esqueciSenha: (email) => apiRequest('/auth/esqueci-senha', 'POST', { email }),
-  redefinirSenha: (dados) => apiRequest('/auth/redefinir-senha', 'POST', dados)
+  alterarSenha: (dados) => apiRequest('/auth/alterar-senha', 'PUT', dados)
 };
 
 // ===== MÓDULO: VEÍCULOS =====
-// CRUD de veículos, atualização da quilometragem e envio da foto (/api/veiculos)
+// Listar, cadastrar, editar e excluir veículos, mais o envio da foto (/api/veiculos)
 const VeiculosAPI = {
   listar: () => apiRequest('/veiculos'),
-  buscarPorId: (id) => apiRequest(`/veiculos/${id}`),
   cadastrar: (dados) => apiRequest('/veiculos', 'POST', dados),
   editar: (id, dados) => apiRequest(`/veiculos/${id}`, 'PUT', dados),
-  atualizarQuilometragem: (id, quilometragem_atual) => apiRequest(`/veiculos/${id}/quilometragem`, 'PATCH', { quilometragem_atual }),
   atualizarFoto: (id, formData) => apiRequest(`/veiculos/${id}/foto`, 'POST', formData, true),
   excluir: (id) => apiRequest(`/veiculos/${id}`, 'DELETE')
 };
@@ -136,13 +132,12 @@ const OficinasAPI = {
 };
 
 // ===== MÓDULO: GASTOS =====
-// Listar gastos (filtros na query string), resumos para os gráficos e CRUD de gastos manuais
+// Listar gastos (filtros na query string), resumos para os gráficos, cadastro e exclusão de gastos manuais
 const GastosAPI = {
   listar: (veiculoId, filtros = '') => apiRequest(`/veiculos/${veiculoId}/gastos${filtros}`),
   resumoPorCategoria: (veiculoId) => apiRequest(`/veiculos/${veiculoId}/gastos/resumo-categoria`),
   resumoMensal: (veiculoId) => apiRequest(`/veiculos/${veiculoId}/gastos/resumo-mensal`),
   cadastrar: (veiculoId, dados) => apiRequest(`/veiculos/${veiculoId}/gastos`, 'POST', dados),
-  editar: (veiculoId, id, dados) => apiRequest(`/veiculos/${veiculoId}/gastos/${id}`, 'PUT', dados),
   excluir: (veiculoId, id) => apiRequest(`/veiculos/${veiculoId}/gastos/${id}`, 'DELETE')
 };
 

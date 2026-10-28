@@ -17,28 +17,6 @@ async function listar(req, res) {
   }
 }
 
-// ===== BUSCAR UM VEÍCULO ESPECÍFICO =====
-// Retorna um veículo, desde que pertença ao usuário logado
-async function buscarPorId(req, res) {
-  try {
-    const { id } = req.params;
-
-    const [veiculos] = await pool.query(
-      'SELECT * FROM veiculos WHERE id = ? AND usuario_id = ?',
-      [id, req.usuarioId]
-    );
-
-    if (veiculos.length === 0) {
-      return res.status(404).json({ erro: 'Veículo não encontrado.' });
-    }
-
-    return res.json(veiculos[0]);
-  } catch (erro) {
-    console.error(erro);
-    return res.status(500).json({ erro: 'Erro ao buscar veículo.' });
-  }
-}
-
 // ===== CADASTRAR NOVO VEÍCULO =====
 // Cria o veículo. Se a placa for de um veículo excluído do mesmo usuário, reativa esse veículo
 async function cadastrar(req, res) {
@@ -201,41 +179,6 @@ async function atualizarFoto(req, res) {
   }
 }
 
-// ===== ATUALIZAR SOMENTE A QUILOMETRAGEM (uso rápido) =====
-// Não aceita quilometragem menor que a atual
-async function atualizarQuilometragem(req, res) {
-  try {
-    const { id } = req.params;
-    const { quilometragem_atual } = req.body;
-
-    if (quilometragem_atual === undefined) {
-      return res.status(400).json({ erro: 'Quilometragem é obrigatória.' });
-    }
-
-    const [veiculos] = await pool.query(
-      'SELECT quilometragem_atual FROM veiculos WHERE id = ? AND usuario_id = ?',
-      [id, req.usuarioId]
-    );
-    if (veiculos.length === 0) {
-      return res.status(404).json({ erro: 'Veículo não encontrado.' });
-    }
-
-    if (quilometragem_atual < veiculos[0].quilometragem_atual) {
-      return res.status(400).json({ erro: 'A nova quilometragem não pode ser menor que a atual.' });
-    }
-
-    await pool.query(
-      'UPDATE veiculos SET quilometragem_atual = ? WHERE id = ? AND usuario_id = ?',
-      [quilometragem_atual, id, req.usuarioId]
-    );
-
-    return res.json({ mensagem: 'Quilometragem atualizada com sucesso!' });
-  } catch (erro) {
-    console.error(erro);
-    return res.status(500).json({ erro: 'Erro ao atualizar quilometragem.' });
-  }
-}
-
 // ===== EXCLUIR VEÍCULO (soft delete) =====
 // Marca como inativo (ativo = FALSE) em vez de apagar, preservando o histórico
 async function excluir(req, res) {
@@ -265,10 +208,8 @@ async function excluir(req, res) {
 
 module.exports = {
   listar,
-  buscarPorId,
   cadastrar,
   editar,
-  atualizarQuilometragem,
   atualizarFoto,
   excluir
 };

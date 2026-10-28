@@ -109,7 +109,7 @@ Abra a pasta `frontend/` no VS Code e clique com o botão direito em `index.html
 
 ## Funcionalidades
 
-- **Autenticação** — cadastro, login, recuperação de senha, edição de perfil (JWT)
+- **Autenticação** — cadastro, login, edição de perfil e troca de senha (JWT)
 - **Gerenciamento de veículos** — CRUD completo, com foto e soft delete
 - **Manutenções** — histórico de serviços, vinculado a oficinas
 - **Abastecimentos** — histórico com cálculo automático de consumo médio (km/l) e preço médio por litro
@@ -154,7 +154,7 @@ Authorization: Bearer <token>
 ## Próximos passos possíveis
 
 - [ ] Deploy do backend, banco e frontend (ex: Railway/Render + hospedagem estática)
-- [ ] Envio de e-mail real na recuperação de senha (Nodemailer) — hoje o token aparece na própria tela, em modo desenvolvimento
+- [ ] Recuperação de senha por e-mail (Nodemailer)
 - [ ] Exportação de dados em CSV/Excel
 - [ ] Notificações por e-mail quando novos alertas forem gerados
 - [ ] Tema claro/escuro

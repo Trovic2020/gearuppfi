@@ -21,14 +21,10 @@ router.use('/:veiculoId/relatorios', require('./reportRoutes'));
 
 // GET /api/veiculos — lista os veículos ativos do usuário
 router.get('/', vehicleController.listar);
-// GET /api/veiculos/:id — busca um veículo do usuário
-router.get('/:id', vehicleController.buscarPorId);
 // POST /api/veiculos — cadastra um veículo (ou reativa um excluído com a mesma placa)
 router.post('/', vehicleController.cadastrar);
 // PUT /api/veiculos/:id — edita os dados do veículo
 router.put('/:id', vehicleController.editar);
-// PATCH /api/veiculos/:id/quilometragem — atualiza só a quilometragem (não aceita valor menor que o atual)
-router.patch('/:id/quilometragem', vehicleController.atualizarQuilometragem);
 // POST /api/veiculos/:id/foto — envia ou troca a foto do veículo (campo "foto")
 router.post('/:id/foto', uploadFoto.single('foto'), vehicleController.atualizarFoto);
 // DELETE /api/veiculos/:id — tira o veículo da lista (soft delete, o histórico é preservado)

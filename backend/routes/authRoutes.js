@@ -8,10 +8,6 @@ const authMiddleware = require('../middlewares/authMiddleware');
 router.post('/cadastro', authController.cadastrar);
 // POST /api/auth/login — confere e-mail e senha e devolve o token JWT
 router.post('/login', authController.login);
-// POST /api/auth/esqueci-senha — gera o token de recuperação de senha (modo dev: volta na resposta)
-router.post('/esqueci-senha', authController.solicitarRecuperacao);
-// POST /api/auth/redefinir-senha — troca a senha usando o token de recuperação
-router.post('/redefinir-senha', authController.redefinirSenha);
 
 // Rotas protegidas (precisam estar logado)
 // GET /api/auth/perfil — dados do usuário logado

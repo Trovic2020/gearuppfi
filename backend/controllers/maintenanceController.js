@@ -36,36 +36,6 @@ async function listar(req, res) {
   }
 }
 
-// ===== BUSCAR UMA MANUTENÇÃO ESPECÍFICA =====
-// Retorna uma manutenção do veículo, com o nome da oficina
-async function buscarPorId(req, res) {
-  try {
-    const { veiculoId, id } = req.params;
-
-    const pertence = await veiculoPertenceAoUsuario(veiculoId, req.usuarioId);
-    if (!pertence) {
-      return res.status(404).json({ erro: 'Veículo não encontrado.' });
-    }
-
-    const [manutencoes] = await pool.query(
-      `SELECT m.*, o.nome AS oficina_nome 
-       FROM manutencoes m
-       LEFT JOIN oficinas o ON m.oficina_id = o.id
-       WHERE m.id = ? AND m.veiculo_id = ?`,
-      [id, veiculoId]
-    );
-
-    if (manutencoes.length === 0) {
-      return res.status(404).json({ erro: 'Manutenção não encontrada.' });
-    }
-
-    return res.json(manutencoes[0]);
-  } catch (erro) {
-    console.error(erro);
-    return res.status(500).json({ erro: 'Erro ao buscar manutenção.' });
-  }
-}
-
 // ===== CADASTRAR MANUTENÇÃO =====
 // Salva a manutenção, lança o gasto em "Manutenção" (se tiver valor) e atualiza a quilometragem do veículo
 async function cadastrar(req, res) {
@@ -209,4 +179,4 @@ async function excluir(req, res) {
   }
 }
 
-module.exports = { listar, buscarPorId, cadastrar, editar, excluir };
+module.exports = { listar, cadastrar, editar, excluir };

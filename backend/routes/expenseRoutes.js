@@ -14,8 +14,6 @@ router.get('/resumo-categoria', expenseController.resumoPorCategoria);
 router.get('/resumo-mensal', expenseController.resumoMensal);
 // POST /api/veiculos/:veiculoId/gastos — lança um gasto manual
 router.post('/', expenseController.cadastrar);
-// PUT /api/veiculos/:veiculoId/gastos/:id — edita um gasto (só os lançados manualmente)
-router.put('/:id', expenseController.editar);
 // DELETE /api/veiculos/:veiculoId/gastos/:id — exclui um gasto (só os lançados manualmente)
 router.delete('/:id', expenseController.excluir);
 

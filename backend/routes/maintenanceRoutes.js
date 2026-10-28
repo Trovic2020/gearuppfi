@@ -8,8 +8,6 @@ router.use(authMiddleware);
 
 // GET /api/veiculos/:veiculoId/manutencoes — lista as manutenções com o nome da oficina
 router.get('/', maintenanceController.listar);
-// GET /api/veiculos/:veiculoId/manutencoes/:id — busca uma manutenção específica
-router.get('/:id', maintenanceController.buscarPorId);
 // POST /api/veiculos/:veiculoId/manutencoes — registra uma manutenção (lança o gasto e atualiza a quilometragem)
 router.post('/', maintenanceController.cadastrar);
 // PUT /api/veiculos/:veiculoId/manutencoes/:id — edita uma manutenção e mantém o gasto vinculado em sincronia

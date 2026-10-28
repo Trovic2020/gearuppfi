@@ -1,6 +1,5 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
 const pool = require('../config/database');
 require('dotenv').config();
 
@@ -174,89 +173,10 @@ async function alterarSenha(req, res) {
   }
 }
 
-// ===== SOLICITAR RECUPERAÇÃO DE SENHA (esqueci minha senha) =====
-// Gera um token de recuperação válido por 1 hora e salva no usuário.
-// Em modo de desenvolvimento o token volta na resposta (tokenDev), em vez de ir por e-mail.
-async function solicitarRecuperacao(req, res) {
-  try {
-    const { email } = req.body;
-
-    if (!email) {
-      return res.status(400).json({ erro: 'E-mail é obrigatório.' });
-    }
-
-    const [usuarios] = await pool.query('SELECT id FROM usuarios WHERE email = ?', [email]);
-
-    // Por segurança, não informamos se o e-mail existe ou não
-    if (usuarios.length === 0) {
-      return res.json({ mensagem: 'Se o e-mail existir em nossa base, você receberá instruções.' });
-    }
-
-    const token = crypto.randomBytes(32).toString('hex');
-    const expira = new Date(Date.now() + 60 * 60 * 1000); // expira em 1 hora
-
-    await pool.query(
-      'UPDATE usuarios SET reset_token = ?, reset_token_expira = ? WHERE id = ?',
-      [token, expira, usuarios[0].id]
-    );
-
-    // TODO (próxima etapa opcional): enviar esse token por e-mail real (Nodemailer)
-    // Por enquanto, retornamos o token na resposta só para fins de teste em desenvolvimento
-    return res.json({
-      mensagem: 'Se o e-mail existir em nossa base, você receberá instruções.',
-      tokenDev: token // ⚠️ remover isso quando integrar envio de e-mail de verdade
-    });
-
-  } catch (erro) {
-    console.error(erro);
-    return res.status(500).json({ erro: 'Erro ao solicitar recuperação de senha.' });
-  }
-}
-
-// ===== REDEFINIR SENHA COM TOKEN =====
-// Troca a senha se o token de recuperação existir e não tiver expirado; depois apaga o token
-async function redefinirSenha(req, res) {
-  try {
-    const { token, novaSenha } = req.body;
-
-    if (!token || !novaSenha) {
-      return res.status(400).json({ erro: 'Token e nova senha são obrigatórios.' });
-    }
-
-    if (novaSenha.length < 6) {
-      return res.status(400).json({ erro: 'A nova senha deve ter no mínimo 6 caracteres.' });
-    }
-
-    const [usuarios] = await pool.query(
-      'SELECT id FROM usuarios WHERE reset_token = ? AND reset_token_expira > NOW()',
-      [token]
-    );
-
-    if (usuarios.length === 0) {
-      return res.status(400).json({ erro: 'Token inválido ou expirado.' });
-    }
-
-    const novaSenhaHash = await bcrypt.hash(novaSenha, 10);
-
-    await pool.query(
-      'UPDATE usuarios SET senha = ?, reset_token = NULL, reset_token_expira = NULL WHERE id = ?',
-      [novaSenhaHash, usuarios[0].id]
-    );
-
-    return res.json({ mensagem: 'Senha redefinida com sucesso!' });
-
-  } catch (erro) {
-    console.error(erro);
-    return res.status(500).json({ erro: 'Erro ao redefinir senha.' });
-  }
-}
-
 module.exports = {
   cadastrar,
   login,
   buscarPerfil,
   editarPerfil,
-  alterarSenha,
-  solicitarRecuperacao,
-  redefinirSenha
+  alterarSenha
 };

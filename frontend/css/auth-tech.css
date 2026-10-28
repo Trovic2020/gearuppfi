@@ -141,8 +141,6 @@
   flex-shrink: 0;
 }
 
-.ticker-lateral { display: none; }
-
 .painel-form {
   min-height: 100vh;
   display: flex;
@@ -212,13 +210,6 @@
   gap: 12px;
 }
 
-.esqueci-senha-wrap {
-  text-align: right;
-  margin: -4px 0 18px;
-}
-
-.link-esqueci { font-size: 14px; }
-.link-esqueci:hover,
 .link-form a:hover,
 .link-voltar:hover { text-decoration: underline; }
 

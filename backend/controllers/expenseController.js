@@ -83,46 +83,6 @@ async function cadastrar(req, res) {
   }
 }
 
-// ===== EDITAR GASTO (somente os lançados manualmente) =====
-// Gastos automáticos só podem ser editados na tela de origem (abastecimento, manutenção ou seguro)
-async function editar(req, res) {
-  try {
-    const { veiculoId, id } = req.params;
-    const { categoria, descricao, valor, data_gasto } = req.body;
-
-    const pertence = await veiculoPertenceAoUsuario(veiculoId, req.usuarioId);
-    if (!pertence) {
-      return res.status(404).json({ erro: 'Veículo não encontrado.' });
-    }
-
-    const [gastos] = await pool.query('SELECT * FROM gastos WHERE id = ? AND veiculo_id = ?', [id, veiculoId]);
-    if (gastos.length === 0) {
-      return res.status(404).json({ erro: 'Gasto não encontrado.' });
-    }
-
-    if (gastos[0].origem_tipo !== 'manual') {
-      return res.status(400).json({
-        erro: `Este gasto foi gerado automaticamente por um registro de ${gastos[0].origem_tipo}. Edite-o na tela correspondente.`
-      });
-    }
-
-    const categoriasValidas = ['Combustível', 'Manutenção', 'Seguro', 'Pneus', 'Documentação', 'Outros'];
-    if (!categoria || !categoriasValidas.includes(categoria)) {
-      return res.status(400).json({ erro: 'Categoria inválida.' });
-    }
-
-    await pool.query(
-      'UPDATE gastos SET categoria = ?, descricao = ?, valor = ?, data_gasto = ? WHERE id = ? AND veiculo_id = ?',
-      [categoria, descricao || null, valor, data_gasto, id, veiculoId]
-    );
-
-    return res.json({ mensagem: 'Gasto atualizado com sucesso!' });
-  } catch (erro) {
-    console.error(erro);
-    return res.status(500).json({ erro: 'Erro ao atualizar gasto.' });
-  }
-}
-
 // ===== EXCLUIR GASTO (somente os lançados manualmente) =====
 // Gastos automáticos só podem ser excluídos na tela de origem (abastecimento, manutenção ou seguro)
 async function excluir(req, res) {
@@ -212,4 +172,4 @@ async function resumoMensal(req, res) {
   }
 }
 
-module.exports = { listar, cadastrar, editar, excluir, resumoPorCategoria, resumoMensal };
+module.exports = { listar, cadastrar, excluir, resumoPorCategoria, resumoMensal };

@@ -2,12 +2,6 @@
    GEARUP — PÁGINA INICIAL
    ========================================================== */
 
-/* elementos decorativos do visual antigo */
-.hero-painel,
-.ticker,
-.codigo-diagnostico,
-.linha-processo { display: none; }
-
 body { background: var(--bg-painel); }
 
 /* ===== CABEÇALHO ===== */
